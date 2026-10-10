@@ -1,0 +1,34 @@
+# Dependencies
+node_modules
+client/node_modules
+server/node_modules
+
+# Production build outputs
+dist
+client/dist
+.vercel
+
+# Environment variables (Keep credentials safe!)
+.env
+.env*
+*.env
+**/.env
+**/.env*
+server/.env
+client/.env
+server/.env.local
+client/.env.local
+!.env.example
+!server/.env.example
+!**/.env.example
+
+# Logs & cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.DS_Store
+
+# Editor
+.vscode
+.idea

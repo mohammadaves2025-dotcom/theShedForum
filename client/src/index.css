@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #0052B4;
+  --color-brand-navy: #0F172A;
+  --color-brand-green: #009A44;
+  --color-brand-red: #D91B24;
+}
+
+body {
+  background-color: #FFFFFF;
+  color: #1E293B;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Lora', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-serif-heading, .font-editorial {
+  font-family: 'Lora', Georgia, serif;
+}
+
+.font-sans-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Clean Editorial NGO Utility Classes */
+.ngo-hero-bg {
+  background-color: #FFFFFF;
+}
+
+.ngo-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: all 0.3s ease;
+}
+
+.ngo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
+}
+
+.ngo-badge-blue {
+  background-color: #EFF6FF;
+  color: #0052B4;
+  border: 1px solid #BFDBFE;
+}
+
+.ngo-badge-green {
+  background-color: #ECFDF5;
+  color: #009A44;
+  border: 1px solid #A7F3D0;
+}
+
+.ngo-badge-red {
+  background-color: #FEF2F2;
+  color: #D91B24;
+  border: 1px solid #FECACA;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #0052B4;
+  border-radius: 4px;
+}

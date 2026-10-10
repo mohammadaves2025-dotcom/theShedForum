@@ -1,0 +1,21 @@
+{
+  "name": "the-shed-forum",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack Web Platform for The ShED Forum NGO",
+  "type": "module",
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev": "npm run dev --prefix client",
+    "start": "node server/src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^10.0.16"
+  }
+}

@@ -1,0 +1,67 @@
+﻿{
+  "units": {
+    "manuu-unit": {
+      "name": "MANUU Unit",
+      "fullName": "Maulana Azad National Urdu University, Hyderabad",
+      "location": "Hyderabad, Telangana",
+      "established": 2018,
+      "images": [
+        { "file": "/gallery/manuu-unit/manuu-group-night-01.jpg", "caption": "MANUU Unit — Annual Group Photo", "event": "Annual Gathering", "time": "Evening" },
+        { "file": "/gallery/manuu-unit/manuu-event-indoor-01.jpg", "caption": "MANUU Unit — Indoor Orientation Programme", "event": "Freshers Orientation", "time": "Daytime" },
+        { "file": "/gallery/manuu-unit/manuu-circle-meeting-lawn-01.jpg", "caption": "MANUU Unit — Open Lawn Circle Meeting", "event": "Mentorship Initiative", "time": "Daytime" },
+        { "file": "/gallery/manuu-unit/manuu-outdoor-audience-day-01.jpg", "caption": "MANUU Unit — Career Guidance Session", "event": "Career Guidance Programme", "time": "Daytime" },
+        { "file": "/gallery/manuu-unit/manuu-group-night-02.jpg", "caption": "MANUU Unit — Group Photo at Campus", "event": "Unit Meeting", "time": "Evening" },
+        { "file": "/gallery/manuu-unit/manuu-outdoor-audience-day-02.jpg", "caption": "MANUU Unit — Open Session", "event": "Mentorship Session", "time": "Daytime" },
+        { "file": "/gallery/manuu-unit/manuu-group-night-03.jpg", "caption": "MANUU Unit — Large Group Photo", "event": "Annual Gathering", "time": "Evening" },
+        { "file": "/gallery/manuu-unit/manuu-group-night-04.jpg", "caption": "MANUU Unit — Community Group Photo", "event": "Annual Gathering", "time": "Evening" },
+        { "file": "/gallery/manuu-unit/manuu-group-night-05.jpg", "caption": "MANUU Unit — Students Group Photo", "event": "Unit Meeting", "time": "Evening" }
+      ]
+    },
+    "jmi-unit": {
+      "name": "Jamia Unit",
+      "fullName": "Jamia Millia Islamia, New Delhi",
+      "location": "New Delhi",
+      "established": 2021,
+      "images": [
+        { "file": "/gallery/jmi-unit/jmi-seminar-indoor-01.jpg", "caption": "JMI Unit — Seminar & Guidance Session", "event": "Career Guidance Programme", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-book-launch-indoor-01.jpg", "caption": "JMI Unit — Igniting Minds Book Launch", "event": "Book Launch", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-group-gate-night-01.jpg", "caption": "JMI Unit — Group Photo at JMI Gate", "event": "Unit Meeting", "time": "Evening" },
+        { "file": "/gallery/jmi-unit/jmi-group-centenary-gate-01.jpg", "caption": "JMI Unit — Group Photo at Centenary Gate", "event": "Unit Meet", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-group-gate-night-02.jpg", "caption": "JMI Unit — Group at JMI Illuminated Gate", "event": "Unit Gathering", "time": "Evening" },
+        { "file": "/gallery/jmi-unit/jmi-circle-meeting-lawn-01.jpg", "caption": "JMI Unit — Circle Discussion on Lawn", "event": "Mentorship Initiative", "time": "Daytime (Winter)" },
+        { "file": "/gallery/jmi-unit/jmi-group-campus-lawn-01.jpg", "caption": "JMI Unit — Group Photo on Campus Lawn", "event": "Unit Meeting", "time": "Evening" },
+        { "file": "/gallery/jmi-unit/jmi-career-guidance-indoor-01.jpg", "caption": "JMI Unit — Career Guidance Indoor Session", "event": "Career Guidance Programme", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-career-pathways-event-01.jpg", "caption": "JMI Unit — Career Pathways for Graduates Event", "event": "Career Pathways: Employment & Higher Studies", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-career-pathways-event-02.jpg", "caption": "JMI Unit — Career Pathways Event (Session)", "event": "Career Pathways: Employment & Higher Studies", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-career-pathways-event-03.jpg", "caption": "JMI Unit — Career Pathways Event (Speaker)", "event": "Career Pathways: Employment & Higher Studies", "time": "Daytime" },
+        { "file": "/gallery/jmi-unit/jmi-scg-session-indoor-01.jpg", "caption": "JMI Unit — Large Indoor SCG Guidance Session", "event": "SCG Guidance Session", "time": "Daytime" }
+      ]
+    },
+    "amu-unit": {
+      "name": "AMU Unit",
+      "fullName": "Aligarh Muslim University, Aligarh",
+      "location": "Aligarh, Uttar Pradesh",
+      "established": 2022,
+      "images": [
+        { "file": "/gallery/amu-unit/amu-group-night-outdoor-01.jpg", "caption": "AMU Unit — Group Photo (Night, Outdoor)", "event": "Unit Meeting", "time": "Evening" },
+        { "file": "/gallery/amu-unit/amu-circle-meeting-mosque-night-01.jpg", "caption": "AMU Unit Meeting — August 2024", "event": "AMU Unit Meeting, August 2024", "time": "Evening" },
+        { "file": "/gallery/amu-unit/amu-circle-meeting-outdoor-day-01.jpg", "caption": "AMU Unit — Open Circle Discussion", "event": "Mentorship Initiative", "time": "Daytime" },
+        { "file": "/gallery/amu-unit/amu-circle-meeting-mosque-night-02.jpg", "caption": "AMU Unit Meeting — August 2024 (Night)", "event": "AMU Unit Meeting, August 2024", "time": "Evening" },
+        { "file": "/gallery/amu-unit/amu-indoor-meeting-01.jpg", "caption": "AMU Unit — Indoor Unit Meeting", "event": "Unit Meeting", "time": "Daytime" },
+        { "file": "/gallery/amu-unit/amu-outdoor-session-night-01.jpg", "caption": "AMU Unit — Large Outdoor Session (Night)", "event": "Career Guidance Session", "time": "Evening" }
+      ]
+    },
+    "online-events": {
+      "name": "Online Events",
+      "fullName": "Virtual Sessions — ShED Forum",
+      "location": "Online",
+      "established": 2020,
+      "images": [
+        { "file": "/gallery/online-events/online-facebook-live-01.jpg", "caption": "ShED Forum — Facebook Live Session", "event": "Online Dialogue Session", "time": "Evening" },
+        { "file": "/gallery/online-events/online-zoom-meeting-01.jpg", "caption": "ShED Forum — Zoom Meeting (57 Participants)", "event": "Shershahbadi Educational Dialogue", "time": "Daytime" },
+        { "file": "/gallery/online-events/online-scg-google-meet-01.jpg", "caption": "SCG Centre — Google Meet Session", "event": "SCG Online Guidance Session", "time": "Daytime" },
+        { "file": "/gallery/online-events/online-scg-google-meet-02.jpg", "caption": "SCG Centre — Google Meet Session", "event": "SCG Online Guidance Session", "time": "Daytime" }
+      ]
+    }
+  }
+}

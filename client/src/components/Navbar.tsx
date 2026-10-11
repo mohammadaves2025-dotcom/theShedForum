@@ -391,36 +391,81 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
             </div>
 
             {/* Mobile Navigation Toggle Button */}
-            <div className="flex xl:hidden items-center gap-2">
+            <div className="flex xl:hidden items-center gap-1.5 sm:gap-2">
               <button
                 onClick={onOpenHelpdesk}
-                className="bg-[#0052B4] text-white px-3 py-2 rounded-xl text-xs font-semibold lg:hidden shadow-xs flex items-center gap-1.5 active:scale-95 min-h-[40px]"
+                className="bg-[#0052B4] text-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-semibold lg:hidden shadow-xs flex items-center gap-1 active:scale-95 min-h-[38px]"
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                 <span>Helpdesk</span>
               </button>
               
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2.5 text-slate-700 hover:text-[#0052B4] rounded-xl hover:bg-slate-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center border border-slate-200/60"
-                aria-label="Toggle Navigation Menu"
+                onClick={() => setMobileMenuOpen(true)}
+                className="p-2 sm:p-2.5 text-slate-700 hover:text-[#0052B4] rounded-xl hover:bg-slate-100 transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center border border-slate-200/80"
+                aria-label="Open Navigation Menu"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6 text-[#D91B24]" /> : <Menu className="w-6 h-6" />}
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
           </div>
         </div>
+      </nav>
 
-        {/* --- MOBILE NAVIGATION DRAWER & BACKDROP --- */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 top-[102px] z-50 xl:hidden flex flex-col bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-            <div className="bg-white w-full max-h-[85vh] overflow-y-auto px-4 pt-3 pb-8 space-y-1 shadow-2xl border-b border-slate-200 rounded-b-3xl">
-              
+      {/* --- MOBILE NAVIGATION SIDEBAR DRAWER & BACKDROP --- */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] xl:hidden">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity duration-300"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Slide-out Sidebar Panel */}
+          <aside 
+            className="fixed inset-y-0 right-0 w-[86vw] max-w-[340px] h-full bg-white shadow-2xl flex flex-col z-10 border-l border-slate-200 animate-in slide-in-from-right duration-300"
+            aria-label="Mobile Navigation Sidebar"
+          >
+            {/* Header: Logo + Close */}
+            <div className="px-4 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+              <Link 
+                to="/" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2.5"
+              >
+                <img 
+                  src="/logo.png" 
+                  alt="The ShED Forum Logo" 
+                  className="h-8 w-auto object-contain"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm font-serif-heading font-bold text-slate-900 leading-none">
+                    The ShED Forum
+                  </span>
+                  <span className="text-[8px] font-bold text-slate-500 uppercase tracking-wider mt-1">
+                    EDUCATE • EMPOWER • EXCEL
+                  </span>
+                </div>
+              </Link>
+
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-slate-500 hover:text-[#D91B24] hover:bg-red-50 transition-colors border border-slate-200/60"
+                aria-label="Close Navigation Sidebar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Scrollable Navigation Items */}
+            <div className="flex-1 overflow-y-auto px-3.5 py-3 space-y-1 overscroll-contain">
               {/* Home */}
               <Link 
                 to="/" 
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold min-h-[44px] transition-colors ${isActive('/') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-900 hover:bg-slate-50'}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${isActive('/') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-800 hover:bg-slate-50'}`}
               >
                 <span>Home</span>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -429,7 +474,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               {/* About */}
               <Link 
                 to="/about" 
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold min-h-[44px] transition-colors ${isActive('/about') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-900 hover:bg-slate-50'}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${isActive('/about') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-800 hover:bg-slate-50'}`}
               >
                 <span>About</span>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -439,7 +485,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               <div className="border-t border-slate-100 my-1 pt-1">
                 <button
                   onClick={() => setMobileCentresOpen(!mobileCentresOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-900 hover:bg-slate-50 min-h-[44px]"
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Bookmark className="w-4 h-4 text-[#0052B4]" />
@@ -449,20 +495,22 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
                 </button>
 
                 {mobileCentresOpen && (
-                  <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-2xl my-1 border border-slate-200/60">
+                  <div className="pl-3 pr-2 py-1 space-y-1 bg-slate-50/80 rounded-xl my-1 border border-slate-200/60">
                     <Link
                       to="/centre"
-                      className="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3 py-2 rounded-lg text-[11.5px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <span>Shed Centre</span>
-                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Core Hub</span>
+                      <span className="text-[9.5px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200/60">Core Hub</span>
                     </Link>
                     <Link
                       to="/sgc-centre"
-                      className="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3 py-2 rounded-lg text-[11.5px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <span>SGC Centre</span>
-                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">100% Free</span>
+                      <span className="text-[9.5px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60">100% Free</span>
                     </Link>
                   </div>
                 )}
@@ -472,35 +520,37 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               <div className="border-t border-slate-100 my-1 pt-1">
                 <button
                   onClick={() => setMobileUnitsOpen(!mobileUnitsOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-900 hover:bg-slate-50 min-h-[44px]"
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-[#0052B4]" />
-                    <span>Units</span>
+                    <span>University Units (7)</span>
                   </div>
                   <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-200 ${mobileUnitsOpen ? 'rotate-180 text-[#0052B4]' : ''}`} />
                 </button>
 
                 {mobileUnitsOpen && (
-                  <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-2xl my-1 border border-slate-200/60">
+                  <div className="pl-3 pr-2 py-1 space-y-0.5 bg-slate-50/80 rounded-xl my-1 border border-slate-200/60 max-h-56 overflow-y-auto">
                     <Link
                       to="/units"
-                      className="flex items-center justify-between px-3 py-2.5 text-xs font-bold text-[#0052B4] hover:underline"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3 py-2 text-[11.5px] font-bold text-[#0052B4] hover:underline"
                     >
-                      <span>Units (All Campus Overview)</span>
+                      <span>All Campus Units Overview</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                     {unitsList.map((unit, idx) => (
                       <Link
                         key={idx}
                         to={unit.path}
-                        className="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center justify-between px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                       >
                         <div className="flex items-center gap-2">
                           <GraduationCap className="w-3.5 h-3.5 text-[#0052B4]" />
                           <span>{unit.name}</span>
                         </div>
-                        <span className="text-[9.5px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">{unit.badge}</span>
+                        <span className="text-[9px] font-bold text-slate-500 bg-white px-1.5 py-0.2 rounded border border-slate-200">{unit.badge}</span>
                       </Link>
                     ))}
                   </div>
@@ -510,9 +560,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               {/* Projects */}
               <Link 
                 to="/projects" 
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold min-h-[44px] transition-colors ${isActive('/projects') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-900 hover:bg-slate-50'}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${isActive('/projects') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-800 hover:bg-slate-50'}`}
               >
-                <span>Projects</span>
+                <span>Projects & Initiatives</span>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
               </Link>
 
@@ -520,7 +571,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               <div className="border-t border-slate-100 my-1 pt-1">
                 <button
                   onClick={() => setMobileMediaOpen(!mobileMediaOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-900 hover:bg-slate-50 min-h-[44px]"
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Compass className="w-4 h-4 text-[#0052B4]" />
@@ -530,59 +581,67 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
                 </button>
 
                 {mobileMediaOpen && (
-                  <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-2xl my-1 border border-slate-200/60">
+                  <div className="pl-3 pr-2 py-1 space-y-0.5 bg-slate-50/80 rounded-xl my-1 border border-slate-200/60 max-h-56 overflow-y-auto">
                     <Link
                       to="/media-corner"
-                      className="flex items-center justify-between px-3 py-2.5 text-xs font-bold text-[#0052B4] hover:underline"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3 py-2 text-[11.5px] font-bold text-[#0052B4] hover:underline"
                     >
-                      <span>Media Corner (Overview)</span>
+                      <span>Media Corner Overview</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                     <Link
                       to="/news-and-events"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <Newspaper className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>News and Events</span>
                     </Link>
                     <Link
                       to="/press-release"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <FileText className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Press Release</span>
                     </Link>
                     <Link
                       to="/publications"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <BookOpen className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Publications</span>
                     </Link>
                     <Link
                       to="/photo-gallery"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <ImageIcon className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Photo Gallery</span>
                     </Link>
                     <Link
                       to="/video-gallery"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <Video className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Video Gallery</span>
                     </Link>
                     <Link
                       to="/patrons-message"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <ShieldCheck className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Patron's Keynote Message</span>
                     </Link>
                     <Link
                       to="/student-stories"
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white min-h-[38px]"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-[#0052B4] hover:bg-white"
                     >
                       <Heart className="w-3.5 h-3.5 text-[#0052B4]" />
                       <span>Student Stories & Impact</span>
@@ -594,30 +653,50 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenHelpdesk }) => {
               {/* Contact */}
               <Link 
                 to="/contact" 
-                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold min-h-[44px] transition-colors ${isActive('/contact') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-900 hover:bg-slate-50'}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${isActive('/contact') ? 'bg-blue-50 text-[#0052B4]' : 'text-slate-800 hover:bg-slate-50'}`}
               >
                 <span>Contact</span>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
               </Link>
-
-              {/* Mobile Helpdesk CTA */}
-              <div className="pt-4 space-y-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenHelpdesk();
-                  }}
-                  className="w-full bg-[#0052B4] text-white py-3.5 rounded-2xl font-bold text-center flex justify-center items-center gap-2 text-xs shadow-md min-h-[44px] active:scale-98"
-                >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span>Open Admission Helpdesk</span>
-                </button>
-              </div>
-
             </div>
-          </div>
-        )}
-      </nav>
+
+            {/* Pinned Bottom Drawer Footer */}
+            <div className="p-3.5 border-t border-slate-100 bg-slate-50/90 space-y-2 shrink-0">
+              <a 
+                href="tel:+917737280758" 
+                className="flex items-center justify-center gap-1.5 text-xs font-bold text-slate-700 hover:text-[#0052B4] bg-white py-2 rounded-xl border border-slate-200/80 shadow-2xs"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#00A3E0]" />
+                <span>Helpline: +91 77372-80758</span>
+              </a>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenHelpdesk();
+                }}
+                className="w-full bg-[#0052B4] hover:bg-[#003D87] text-white py-3 rounded-xl font-bold text-center flex justify-center items-center gap-2 text-xs shadow-md active:scale-98 transition-all"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Open Admission Helpdesk</span>
+              </button>
+
+              <div className="flex justify-between items-center pt-1 px-1 text-[11px] text-slate-500 font-medium">
+                <Link 
+                  to="/admin" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-[#0052B4] flex items-center gap-1"
+                >
+                  <LogIn className="w-3 h-3 text-[#00A3E0]" />
+                  <span>Admin Portal</span>
+                </Link>
+                <span>Est. 2018</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
     </header>
   );
 };

@@ -7,11 +7,11 @@ export const Footer: React.FC = () => {
     <footer className="bg-[#0F172A] text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main 4-Column Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-slate-800">
+        {/* Main 4-Column Grid: On mobile, Primary Navigation & Campus Units sit side-to-side */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-slate-800">
           
           {/* Column 1: Organization Overview */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:col-span-1">
             <div className="flex items-center gap-3">
               <div className="p-1 rounded-xl bg-white shadow-xs shrink-0">
                 <img src="/logo.png" alt="ShED Forum Official Logo" className="h-10 w-auto object-contain" />
@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
             <div className="pt-1">
               <a 
                 href="/publications" 
-                className="inline-flex items-center justify-center gap-2 bg-[#0052B4] hover:bg-[#003D87] text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition-all border border-[#00A3E0]/40 shadow-xs active:scale-98 min-h-[44px] w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 bg-[#0052B4] hover:bg-[#003D87] text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition-all border border-[#00A3E0]/40 shadow-xs active:scale-98 min-h-[40px] w-full sm:w-auto"
               >
                 <Download className="w-4 h-4 text-emerald-400" />
                 <span>Download ShED Booklet</span>
@@ -41,98 +41,107 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 2: Quick Links & Navigation */}
-          <div>
-            <h4 className="text-xs font-bold text-[#00A3E0] uppercase tracking-widest mb-3 sm:mb-4 border-l-2 border-[#0052B4] pl-2">
-              Primary Navigation
-            </h4>
-            <ul className="space-y-1.5 text-xs font-medium">
-              <li>
-                <Link to="/" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Home Page
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  About Us & Vision
-                </Link>
-              </li>
-              <li>
-                <Link to="/centre" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center justify-between">
-                  <span>SCG Guidance Centre</span>
-                  <span className="bg-emerald-500/10 text-emerald-400 text-[10px] px-1.5 py-0.5 rounded font-bold border border-emerald-500/20">FREE</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Our 8 Initiatives
-                </Link>
-              </li>
-              <li>
-                <Link to="/news-and-events" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Academic Calendar & Events
-                </Link>
-              </li>
-              <li>
-                <Link to="/photo-gallery" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Photo & Video Gallery
-                </Link>
-              </li>
-              <li>
-                <Link to="/publications" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Press Release & Handbooks
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="inline-block py-1 hover:text-[#00A3E0] transition-colors min-h-[36px] flex items-center">
-                  Contact & Helpdesk
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Columns 2 & 3: Primary Navigation and Campus Units Side-to-Side on Mobile & Desktop */}
+          <div className="grid grid-cols-2 gap-4 sm:gap-8 lg:col-span-2">
+            
+            {/* Column 2: Quick Links & Navigation */}
+            <div>
+              <h4 className="text-[11px] sm:text-xs font-bold text-[#00A3E0] uppercase tracking-wider sm:tracking-widest mb-2.5 sm:mb-4 border-l-2 border-[#0052B4] pl-2">
+                Primary Nav
+              </h4>
+              <ul className="space-y-1 sm:space-y-1.5 text-[11px] sm:text-xs font-medium">
+                <li>
+                  <Link to="/" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    Home Page
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/about" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    About & Vision
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/centre" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    SGC Centre
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/projects" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    8 Initiatives
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/news-and-events" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    News & Events
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/photo-gallery" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    Photo Gallery
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/publications" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    Publications
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    Contact & Help
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Column 3: University Campus Units */}
-          <div>
-            <h4 className="text-xs font-bold text-[#009A44] uppercase tracking-widest mb-3 sm:mb-4 border-l-2 border-[#009A44] pl-2">
-              University Campus Units
-            </h4>
-            <ul className="space-y-1.5 text-xs font-medium">
-              <li>
-                <Link to="/manuu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  MANUU Unit (Hyderabad)
-                </Link>
-              </li>
-              <li>
-                <Link to="/jmi-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  Jamia Unit (JMI New Delhi)
-                </Link>
-              </li>
-              <li>
-                <Link to="/amu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  AMU Unit (Aligarh)
-                </Link>
-              </li>
-              <li>
-                <Link to="/jnu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  JNU Unit (New Delhi)
-                </Link>
-              </li>
-              <li>
-                <Link to="/du-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  DU Unit (Delhi University)
-                </Link>
-              </li>
-              <li>
-                <Link to="/hcu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  HCU Unit (Hyderabad)
-                </Link>
-              </li>
-              <li>
-                <Link to="/patna-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors min-h-[36px] flex items-center">
-                  Patna University Unit
-                </Link>
-              </li>
-            </ul>
+            {/* Column 3: University Campus Units */}
+            <div>
+              <h4 className="text-[11px] sm:text-xs font-bold text-[#009A44] uppercase tracking-wider sm:tracking-widest mb-2.5 sm:mb-4 border-l-2 border-[#009A44] pl-2">
+                Campus Units
+              </h4>
+              <ul className="space-y-1 sm:space-y-1.5 text-[11px] sm:text-xs font-medium">
+                <li>
+                  <Link to="/manuu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    MANUU (Hyd)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/jmi-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    Jamia (JMI)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/amu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    AMU (Aligarh)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/jnu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    JNU (New Delhi)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/du-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    DU (Delhi Univ)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/hcu-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    HCU (Hyderabad)
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/patna-unit" className="inline-block py-1 hover:text-emerald-400 transition-colors">
+                    Patna University
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/units" className="inline-block py-1 text-emerald-400 font-semibold hover:underline">
+                    All 7 Units →
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
           </div>
 
           {/* Column 4: Official Contact & Social Handles */}

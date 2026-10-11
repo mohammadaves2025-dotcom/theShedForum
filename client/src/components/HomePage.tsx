@@ -261,31 +261,76 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
       </section>
 
       {/* --- ANNOUNCEMENTS TICKER RIBBON --- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20">
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-4 flex flex-col md:flex-row items-center gap-4">
-          <div className="flex items-center gap-2 bg-blue-50 text-[#0052B4] px-4 py-2 rounded-xl text-xs font-bold shrink-0 border border-blue-200">
-            <Megaphone className="w-4 h-4 text-[#0052B4]" />
-            <span>LATEST ANNOUNCEMENTS</span>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-4 sm:-mt-8 md:-mt-12 mb-4 sm:mb-0 relative z-20">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl border border-slate-200/90 p-3 sm:p-4 transition-all">
+          
+          {/* Mobile view (< md): Compact 2-row layout */}
+          <div className="flex flex-col gap-2 md:hidden">
+            <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+              <div className="flex items-center gap-1.5 bg-blue-50 text-[#0052B4] px-2.5 py-1 rounded-lg text-[10.5px] font-bold border border-blue-200/80 shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <Megaphone className="w-3.5 h-3.5 text-[#0052B4]" />
+                <span>LATEST ANNOUNCEMENTS</span>
+              </div>
+              <Link
+                to="/news-and-events"
+                className="text-[11px] font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-0.5"
+              >
+                <span>View All</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="min-w-0 overflow-hidden text-xs text-slate-800 font-medium">
+              {events.length > 0 ? (
+                <div className="line-clamp-2 leading-relaxed">
+                  <span className="inline-block bg-[#0052B4]/10 text-[#0052B4] px-1.5 py-0.5 rounded text-[10px] font-bold mr-1.5 align-middle">
+                    {events[0].category}
+                  </span>
+                  <span className="font-semibold text-slate-900">{events[0].title}</span>
+                  {events[0].summary && (
+                    <span className="text-slate-600"> — {events[0].summary}</span>
+                  )}
+                </div>
+              ) : (
+                <span className="line-clamp-2">Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
+              )}
+            </div>
           </div>
-          <div className="text-xs sm:text-sm text-slate-800 font-medium flex-1 truncate">
-            {events.length > 0 ? (
-              <span className="flex items-center gap-2">
-                <span className="bg-[#0052B4]/10 text-[#0052B4] px-2.5 py-0.5 rounded-lg text-xs font-bold">
-                  {events[0].category}
+
+          {/* Desktop & Tablet view (>= md): Sleek 1-row ticker layout */}
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex items-center gap-2 bg-blue-50 text-[#0052B4] px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 border border-blue-200">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <Megaphone className="w-4 h-4 text-[#0052B4]" />
+              <span>LATEST ANNOUNCEMENTS</span>
+            </div>
+            
+            <div className="text-xs sm:text-sm text-slate-800 font-medium flex-1 min-w-0 truncate">
+              {events.length > 0 ? (
+                <span className="truncate inline-block max-w-full">
+                  <span className="bg-[#0052B4]/10 text-[#0052B4] px-2 py-0.5 rounded-md text-xs font-bold mr-2">
+                    {events[0].category}
+                  </span>
+                  <span className="font-semibold text-slate-900">{events[0].title}</span>
+                  {events[0].summary && (
+                    <span className="text-slate-600"> — {events[0].summary}</span>
+                  )}
                 </span>
-                <span>{events[0].title} — {events[0].summary}</span>
-              </span>
-            ) : (
-              <span>Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
-            )}
+              ) : (
+                <span>Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
+              )}
+            </div>
+
+            <Link
+              to="/news-and-events"
+              className="text-xs font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-1"
+            >
+              <span>View All Events</span>
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
-          <Link
-            to="/news-and-events"
-            className="text-xs font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-1"
-          >
-            <span>View All Events</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+
         </div>
       </div>
 

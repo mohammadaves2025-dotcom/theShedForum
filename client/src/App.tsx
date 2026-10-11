@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HelpdeskModal } from './components/HelpdeskModal';
@@ -18,11 +18,50 @@ import { PatronsMessagePage } from './components/PatronsMessagePage';
 import { ContactPage } from './components/ContactPage';
 import { AdminPage } from './components/AdminPage';
 
+// Scroll restoration: Ensures every link and button click opens the top of the destination page
+const ScrollToTop: React.FC = () => {
+  const { pathname, search, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname, search, hash]);
+
+  useEffect(() => {
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement)?.closest('a');
+      if (target && target.href && !target.target && !target.href.startsWith('mailto:') && !target.href.startsWith('tel:')) {
+        const url = new URL(target.href, window.location.href);
+        if (url.origin === window.location.origin && !url.hash) {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }
+      }
+    };
+
+    document.addEventListener('click', handleLinkClick);
+    return () => document.removeEventListener('click', handleLinkClick);
+  }, []);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   const [helpdeskOpen, setHelpdeskOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 antialiased font-sans">
+      <ScrollToTop />
       <Navbar onOpenHelpdesk={() => setHelpdeskOpen(true)} />
 
       <main className="flex-grow">

@@ -30,6 +30,16 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: (doc, ret) => {
+      ret.id = ret._id.toString();
+      return ret;
+    }
+  },
+  toObject: { virtuals: true }
 });
 
 export const Event = mongoose.models.Event || mongoose.model('Event', eventSchema);

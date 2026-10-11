@@ -147,18 +147,49 @@ export const AdminPage: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const loadDashboardData = () => {
-    ApiService.getStats().then(setStats);
-    ApiService.getEvents().then(setEvents);
+    ApiService.getStats().then((data) => {
+      if (data) setStats(data);
+    });
+    ApiService.getEvents().then((items) => {
+      if (items) setEvents(items);
+    });
     ApiService.getGallery().then((items) => {
       if (items && items.length > 0) {
         setGallery(items);
+        const heroItem = items.find((i: any) => i.isHero);
+        if (heroItem) {
+          setActiveHeroImage(heroItem.url || heroItem.thumbnail);
+        }
       }
     });
     ApiService.getContactSubmissions().then((data) => {
       if (data && data.length > 0) {
-        const serverIds = new Set(data.map((d: any) => d.id));
+        const normalized = data.map((d: any) => ({ ...d, id: d.id || d._id }));
+        const serverIds = new Set(normalized.map((d: any) => d.id));
         const nonDuplicateMock = demoSubmissions.filter(m => !serverIds.has(m.id));
-        setSubmissions([...data, ...nonDuplicateMock]);
+        setSubmissions([...normalized, ...nonDuplicateMock]);
+      }
+    });
+    ApiService.getTicker().then((ticker) => {
+      if (ticker && ticker.text) {
+        setTickerConfig({
+          enabled: ticker.enabled !== false,
+          category: ticker.category || 'CUET 2026 ALERT',
+          text: ticker.text || '',
+          link: ticker.link || '/centre'
+        });
+      }
+    });
+    ApiService.getNgoSettings().then((settings) => {
+      if (settings && (settings.helplinePhone || settings.delhiOffice)) {
+        setNgoSettings({
+          helplinePhone: settings.helplinePhone || '+91 98765 43210',
+          helplineEmail: settings.helplineEmail || 'support@shedforum.org',
+          whatsappGroupUrl: settings.whatsappGroupUrl || 'https://chat.whatsapp.com/shedforum',
+          delhiOffice: settings.delhiOffice || 'Batla House, Jamia Nagar, Okhla, New Delhi 110025',
+          biharOffice: settings.biharOffice || 'Kishanganj City Center, Line Mohalla, Kishanganj 855107',
+          registrationNo: settings.registrationNo || 'S-712/NGO/2018 (Registered Educational Society)'
+        });
       }
     });
   };
@@ -168,9 +199,10 @@ export const AdminPage: React.FC = () => {
     try {
       const data = await ApiService.getContactSubmissions();
       if (data) {
-        const serverIds = new Set(data.map((d: any) => d.id));
+        const normalized = data.map((d: any) => ({ ...d, id: d.id || d._id }));
+        const serverIds = new Set(normalized.map((d: any) => d.id));
         const nonDuplicateMock = demoSubmissions.filter(m => !serverIds.has(m.id));
-        setSubmissions([...data, ...nonDuplicateMock]);
+        setSubmissions([...normalized, ...nonDuplicateMock]);
         showToast(`✓ Synced leads from server (${data.length} live web inquiries)`);
       }
     } finally {
@@ -192,10 +224,28 @@ export const AdminPage: React.FC = () => {
     }
   };
 
-  // Set Hero Image Action
-  const handleSetHeroImage = (imageUrl: string, title: string) => {
-    setActiveHeroImage(imageUrl);
-    showToast(`✓ "${title}" is now set as the Live Homepage Hero Image!`);
+  // Set Hero Image Action (Persisted in DB & Active Live)
+  const handleSetHeroImage = async (item: any) => {
+    const url = item.url || item.thumbnail;
+    const targetId = item.id || item._id;
+    setActiveHeroImage(url);
+
+    try {
+      if (targetId && !targetId.toString().startsWith('g_')) {
+        await ApiService.setHeroImage(targetId);
+      } else {
+        await ApiService.setHeroByUrl(url, item.title);
+      }
+      setGallery((prev) =>
+        prev.map((g) => ({
+          ...g,
+          isHero: (g.id || g._id) === targetId || g.url === url
+        }))
+      );
+      showToast(`✓ "${item.title}" is now set as the Live Homepage Hero Image!`);
+    } catch (err: any) {
+      showToast(err.message || 'Error updating hero photo');
+    }
   };
 
   // Add Gallery Item Action
@@ -210,9 +260,10 @@ export const AdminPage: React.FC = () => {
     try {
       const res = await ApiService.addGalleryItem(newGallery, selectedFile);
       if (res && res.success && res.data) {
-        setGallery([res.data, ...gallery]);
+        const created = { ...res.data, id: res.data.id || res.data._id };
+        setGallery([created, ...gallery]);
         if (newGallery.isHero) {
-          setActiveHeroImage(res.data.url);
+          setActiveHeroImage(created.url);
         }
         showToast('✓ Photo uploaded & saved to MongoDB Atlas!');
       } else {
@@ -245,32 +296,93 @@ export const AdminPage: React.FC = () => {
     }
   };
 
-  const handleDeleteGallery = async (id: string) => {
-    await ApiService.deleteGalleryItem(id);
-    setGallery(gallery.filter(g => g.id !== id));
-    showToast('Asset removed from gallery');
+  const handleDeleteGallery = async (item: any) => {
+    const targetId = typeof item === 'string' ? item : (item.id || item._id);
+    if (!targetId) return;
+    try {
+      if (!targetId.toString().startsWith('g_')) {
+        await ApiService.deleteGalleryItem(targetId);
+      }
+      setGallery(gallery.filter(g => (g.id || g._id) !== targetId));
+      showToast('Asset removed from gallery');
+    } catch (err: any) {
+      showToast(err.message || 'Error deleting gallery asset');
+    }
   };
 
   // Add Event Action
   const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
-    await ApiService.addEvent(newEvent);
-    setNewEvent({ title: '', category: 'Coaching', date: '', summary: '', details: '', location: 'Online' });
-    ApiService.getEvents().then(setEvents);
-    showToast('Event / Announcement published live!');
+    try {
+      await ApiService.addEvent(newEvent);
+      setNewEvent({ title: '', category: 'Coaching', date: '', summary: '', details: '', location: 'Online' });
+      const updatedEvents = await ApiService.getEvents();
+      if (updatedEvents) setEvents(updatedEvents);
+      showToast('Event / Announcement published live!');
+    } catch (err: any) {
+      showToast(err.message || 'Error publishing event');
+    }
   };
 
-  const handleDeleteEvent = async (id: string) => {
-    await ApiService.deleteEvent(id);
-    setEvents(events.filter(e => e.id !== id));
-    showToast('Event deleted');
+  const handleDeleteEvent = async (item: any) => {
+    const targetId = typeof item === 'string' ? item : (item.id || item._id);
+    if (!targetId) return;
+    try {
+      await ApiService.deleteEvent(targetId);
+      setEvents(events.filter(e => (e.id || e._id) !== targetId));
+      showToast('Event deleted');
+    } catch (err: any) {
+      showToast(err.message || 'Error deleting event');
+    }
   };
 
   // CRM Update Status
-  const handleUpdateStatus = (subId: string, newStatus: string) => {
-    setSubmissions(submissions.map(s => s.id === subId ? { ...s, status: newStatus } : s));
-    ApiService.updateContactStatus(subId, newStatus);
+  const handleUpdateStatus = async (sub: any, newStatus: string) => {
+    const targetId = typeof sub === 'string' ? sub : (sub.id || sub._id);
+    setSubmissions(submissions.map(s => (s.id || s._id) === targetId ? { ...s, status: newStatus } : s));
+    if (targetId && !targetId.toString().startsWith('sub_')) {
+      try {
+        await ApiService.updateContactStatus(targetId, newStatus);
+      } catch (err) {
+        console.error('Status update failed:', err);
+      }
+    }
     showToast(`Applicant status changed to: ${newStatus}`);
+  };
+
+  // CRM Delete Submission
+  const handleDeleteSubmission = async (sub: any) => {
+    const targetId = typeof sub === 'string' ? sub : (sub.id || sub._id);
+    if (!targetId) return;
+    try {
+      if (!targetId.toString().startsWith('sub_')) {
+        await ApiService.deleteContactSubmission(targetId);
+      }
+      setSubmissions(prev => prev.filter(s => (s.id || s._id) !== targetId));
+      showToast('Student inquiry deleted');
+    } catch (err: any) {
+      showToast(err.message || 'Error removing inquiry');
+    }
+  };
+
+  // Ticker Save Action
+  const handleSaveTicker = async () => {
+    try {
+      await ApiService.updateTicker(tickerConfig);
+      showToast('✓ Homepage Live Announcement Ticker Saved & Updated!');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to update ticker');
+    }
+  };
+
+  // NGO Settings Save Action
+  const handleSaveNgoSettings = async () => {
+    try {
+      await ApiService.updateNgoSettings(ngoSettings);
+      showToast('✓ Global Contact Settings Saved to Server!');
+    } catch (err: any) {
+      showToast(err.message || 'Failed to update settings');
+    }
   };
 
   // Export CSV Functionality (Real client-side CSV download)
@@ -729,10 +841,10 @@ export const AdminPage: React.FC = () => {
             {/* Photos Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredGallery.map((item) => {
-                const isCurrentHero = activeHeroImage === (item.url || item.thumbnail);
+                const isCurrentHero = item.isHero || activeHeroImage === (item.url || item.thumbnail);
                 return (
                   <div
-                    key={item.id}
+                    key={item.id || item._id}
                     className={`bg-white rounded-2xl border overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col justify-between group ${
                       isCurrentHero ? 'ring-2 ring-amber-400 border-amber-300' : 'border-slate-200'
                     }`}
@@ -784,7 +896,7 @@ export const AdminPage: React.FC = () => {
                     {/* Actions Bar */}
                     <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
                       <button
-                        onClick={() => handleSetHeroImage(item.url || item.thumbnail, item.title)}
+                        onClick={() => handleSetHeroImage(item)}
                         className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
                           isCurrentHero 
                             ? 'bg-amber-100 text-amber-900 border border-amber-300 cursor-default'
@@ -796,7 +908,7 @@ export const AdminPage: React.FC = () => {
                       </button>
 
                       <button
-                        onClick={() => handleDeleteGallery(item.id)}
+                        onClick={() => handleDeleteGallery(item)}
                         className="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                         title="Delete asset"
                       >
@@ -988,7 +1100,7 @@ export const AdminPage: React.FC = () => {
                           <td className="py-3.5 px-4">
                             <select
                               value={sub.status || 'New Inquiry'}
-                              onChange={(e) => handleUpdateStatus(sub.id, e.target.value)}
+                              onChange={(e) => handleUpdateStatus(sub, e.target.value)}
                               className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border outline-none cursor-pointer ${statusColor}`}
                             >
                               <option value="New Inquiry">New Inquiry</option>
@@ -998,18 +1110,27 @@ export const AdminPage: React.FC = () => {
                             </select>
                           </td>
 
-                          {/* Actions: Direct WhatsApp */}
+                          {/* Actions: Direct WhatsApp & Delete */}
                           <td className="py-3.5 px-4 text-right">
-                            <a
-                              href={`https://wa.me/91${sub.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(sub.name)},%20greetings%20from%20The%20ShED%20Forum%20Admissions%20Helpdesk!`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs"
-                              title="Start WhatsApp Counseling Chat"
-                            >
-                              <MessageSquare className="w-3.5 h-3.5" />
-                              <span>WhatsApp</span>
-                            </a>
+                            <div className="flex items-center justify-end gap-1.5">
+                              <a
+                                href={`https://wa.me/91${sub.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(sub.name)},%20greetings%20from%20The%20ShED%20Forum%20Admissions%20Helpdesk!`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs"
+                                title="Start WhatsApp Counseling Chat"
+                              >
+                                <MessageSquare className="w-3.5 h-3.5" />
+                                <span>WhatsApp</span>
+                              </a>
+                              <button
+                                onClick={() => handleDeleteSubmission(sub)}
+                                className="text-slate-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-200 transition-colors cursor-pointer"
+                                title="Delete inquiry record"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </td>
 
                         </tr>
@@ -1104,7 +1225,7 @@ export const AdminPage: React.FC = () => {
           </div>
 
           <button
-            onClick={() => showToast('✓ Homepage Live Announcement Ticker Saved & Updated!')}
+            onClick={handleSaveTicker}
             className="bg-[#0052B4] text-white font-bold px-6 py-2.5 rounded-xl text-xs hover:bg-[#003D87] transition-all flex items-center gap-2 cursor-pointer shadow-md"
           >
             <Save className="w-4 h-4 text-amber-300" />
@@ -1177,7 +1298,7 @@ export const AdminPage: React.FC = () => {
           <div className="space-y-3">
             <h3 className="text-base font-black text-slate-900">Current Published Items</h3>
             {events.map((ev) => (
-              <div key={ev.id} className="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center text-xs shadow-2xs">
+              <div key={ev.id || ev._id} className="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center text-xs shadow-2xs">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-slate-900">{ev.title}</span>
@@ -1189,7 +1310,7 @@ export const AdminPage: React.FC = () => {
                   <p className="text-slate-600 mt-1">{ev.summary}</p>
                 </div>
                 <button 
-                  onClick={() => handleDeleteEvent(ev.id)} 
+                  onClick={() => handleDeleteEvent(ev)} 
                   className="text-slate-400 hover:text-red-600 p-2 cursor-pointer"
                   title="Delete event"
                 >
@@ -1312,7 +1433,7 @@ export const AdminPage: React.FC = () => {
             </div>
 
             <button
-              onClick={() => showToast('✓ Global Contact Settings Saved!')}
+              onClick={handleSaveNgoSettings}
               className="bg-[#009A44] text-white font-bold px-6 py-2.5 rounded-xl text-xs hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer shadow-md"
             >
               <Check className="w-4 h-4" />

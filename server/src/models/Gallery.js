@@ -38,6 +38,16 @@ const gallerySchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: (doc, ret) => {
+      ret.id = ret._id.toString();
+      return ret;
+    }
+  },
+  toObject: { virtuals: true }
 });
 
 export const GalleryItem = mongoose.models.GalleryItem || mongoose.model('GalleryItem', gallerySchema);

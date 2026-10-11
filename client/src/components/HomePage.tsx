@@ -18,12 +18,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
   const [initiatives, setInitiatives] = useState<any[]>([]);
   const [patrons, setPatrons] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
+  const [heroImage, setHeroImage] = useState<any>({
+    url: '/gallery/jmi-unit/jmi-group-centenary-gate-01.jpg',
+    title: 'ShED Forum Student Community',
+    caption: 'Rural youth scholars excelling at premier central universities',
+    location: 'Centenary Gate • New Delhi',
+    unit: 'Jamia Millia Islamia'
+  });
+  const [ticker, setTicker] = useState<any>(null);
 
   useEffect(() => {
     ApiService.getUnits().then(setUnits);
     ApiService.getInitiatives().then(setInitiatives);
     ApiService.getPatrons().then(setPatrons);
     ApiService.getEvents().then(setEvents);
+    ApiService.getGallery().then((items) => {
+      if (items && items.length > 0) {
+        const hero = items.find((i: any) => i.isHero);
+        if (hero) {
+          setHeroImage({
+            url: hero.url || hero.thumbnail,
+            title: hero.title || 'ShED Forum Student Community',
+            caption: hero.caption || 'Rural youth scholars excelling at premier central universities',
+            location: hero.eventTag || 'Premier Central University',
+            unit: hero.unit ? hero.unit.replace('-unit', '').toUpperCase() : 'Active Unit'
+          });
+        }
+      }
+    });
+    ApiService.getTicker().then((t) => {
+      if (t) setTicker(t);
+    });
   }, []);
 
   return (
@@ -217,8 +242,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
               <div className="bg-white rounded-3xl border border-slate-200/90 p-3 shadow-2xl overflow-hidden group hover:shadow-3xl transition-shadow">
                 <div className="relative rounded-2xl overflow-hidden bg-slate-100 h-[420px] sm:h-[480px] lg:h-[540px] xl:h-[560px]">
                   <img 
-                    src="/gallery/jmi-unit/jmi-group-centenary-gate-01.jpg" 
-                    alt="ShED Forum Student Community at Jamia Millia Islamia Centenary Gate" 
+                    src={heroImage.url} 
+                    alt={heroImage.title} 
                     className="w-full h-full object-cover object-[center_35%] group-hover:scale-104 transition-transform duration-700"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
@@ -231,7 +256,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
                   <div className="absolute top-4 left-4 z-10">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold border border-white/20 shadow-lg">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Ground Photo • Jamia Millia Islamia</span>
+                      <span>Ground Photo • {heroImage.unit || 'Central University'}</span>
                     </span>
                   </div>
 
@@ -239,13 +264,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
                   <div className="absolute bottom-4 inset-x-4 text-white flex justify-between items-end backdrop-blur-md p-3.5 rounded-2xl bg-slate-900/60 border border-white/15 shadow-xl">
                     <div className="pr-2">
                       <span className="text-[10px] font-black text-cyan-300 uppercase tracking-widest block">
-                        Centenary Gate • New Delhi
+                        {heroImage.location || 'Central University Unit'}
                       </span>
                       <span className="text-sm sm:text-base font-bold text-white leading-tight block">
-                        ShED Forum Student Community
+                        {heroImage.title}
                       </span>
                       <p className="text-[11px] text-slate-300 mt-0.5 font-medium line-clamp-1">
-                        Rural youth scholars excelling at premier central universities
+                        {heroImage.caption}
                       </p>
                     </div>
                     <span className="bg-[#009A44] text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-md shrink-0">
@@ -260,79 +285,87 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenHelpdesk }) => {
         </div>
       </section>
 
-      {/* --- ANNOUNCEMENTS TICKER RIBBON --- */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-4 sm:-mt-8 md:-mt-12 mb-4 sm:mb-0 relative z-20">
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl border border-slate-200/90 p-3 sm:p-4 transition-all">
-          
-          {/* Mobile view (< md): Compact 2-row layout */}
-          <div className="flex flex-col gap-2 md:hidden">
-            <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
-              <div className="flex items-center gap-1.5 bg-blue-50 text-[#0052B4] px-2.5 py-1 rounded-lg text-[10.5px] font-bold border border-blue-200/80 shrink-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <Megaphone className="w-3.5 h-3.5 text-[#0052B4]" />
-                <span>LATEST ANNOUNCEMENTS</span>
+      {/* --- ANNOUNCEMENTS TICKER RIBBON (Controlled by Admin CMS) --- */}
+      {(!ticker || ticker.enabled !== false) && (
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-4 sm:-mt-8 md:-mt-12 mb-4 sm:mb-0 relative z-20">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl border border-slate-200/90 p-3 sm:p-4 transition-all">
+            
+            {/* Mobile view (< md): Compact 2-row layout */}
+            <div className="flex flex-col gap-2 md:hidden">
+              <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-1.5 bg-blue-50 text-[#0052B4] px-2.5 py-1 rounded-lg text-[10.5px] font-bold border border-blue-200/80 shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <Megaphone className="w-3.5 h-3.5 text-[#0052B4]" />
+                  <span>{ticker?.category || 'LATEST ANNOUNCEMENTS'}</span>
+                </div>
+                <Link
+                  to={ticker?.link || "/news-and-events"}
+                  className="text-[11px] font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-0.5"
+                >
+                  <span>View Details</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
+
+              <div className="min-w-0 overflow-hidden text-xs text-slate-800 font-medium">
+                {ticker?.text ? (
+                  <span className="line-clamp-2 leading-relaxed">{ticker.text}</span>
+                ) : events.length > 0 ? (
+                  <div className="line-clamp-2 leading-relaxed">
+                    <span className="inline-block bg-[#0052B4]/10 text-[#0052B4] px-1.5 py-0.5 rounded text-[10px] font-bold mr-1.5 align-middle">
+                      {events[0].category}
+                    </span>
+                    <span className="font-semibold text-slate-900">{events[0].title}</span>
+                    {events[0].summary && (
+                      <span className="text-slate-600"> — {events[0].summary}</span>
+                    )}
+                  </div>
+                ) : (
+                  <span className="line-clamp-2">Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
+                )}
+              </div>
+            </div>
+
+            {/* Desktop & Tablet view (>= md): Sleek 1-row ticker layout */}
+            <div className="hidden md:flex items-center gap-4">
+              <div className="flex items-center gap-2 bg-blue-50 text-[#0052B4] px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 border border-blue-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <Megaphone className="w-4 h-4 text-[#0052B4]" />
+                <span>{ticker?.category || 'LATEST ANNOUNCEMENTS'}</span>
+              </div>
+              
+              <div className="text-xs sm:text-sm text-slate-800 font-medium flex-1 min-w-0 truncate">
+                {ticker?.text ? (
+                  <span className="truncate inline-block max-w-full font-semibold text-slate-900">
+                    {ticker.text}
+                  </span>
+                ) : events.length > 0 ? (
+                  <span className="truncate inline-block max-w-full">
+                    <span className="bg-[#0052B4]/10 text-[#0052B4] px-2 py-0.5 rounded-md text-xs font-bold mr-2">
+                      {events[0].category}
+                    </span>
+                    <span className="font-semibold text-slate-900">{events[0].title}</span>
+                    {events[0].summary && (
+                      <span className="text-slate-600"> — {events[0].summary}</span>
+                    )}
+                  </span>
+                ) : (
+                  <span>Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
+                )}
+              </div>
+
               <Link
-                to="/news-and-events"
-                className="text-[11px] font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-0.5"
+                to={ticker?.link || "/news-and-events"}
+                className="text-xs font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-1"
               >
-                <span>View All</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                <span>View Details</span>
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
-            <div className="min-w-0 overflow-hidden text-xs text-slate-800 font-medium">
-              {events.length > 0 ? (
-                <div className="line-clamp-2 leading-relaxed">
-                  <span className="inline-block bg-[#0052B4]/10 text-[#0052B4] px-1.5 py-0.5 rounded text-[10px] font-bold mr-1.5 align-middle">
-                    {events[0].category}
-                  </span>
-                  <span className="font-semibold text-slate-900">{events[0].title}</span>
-                  {events[0].summary && (
-                    <span className="text-slate-600"> — {events[0].summary}</span>
-                  )}
-                </div>
-              ) : (
-                <span className="line-clamp-2">Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
-              )}
-            </div>
           </div>
-
-          {/* Desktop & Tablet view (>= md): Sleek 1-row ticker layout */}
-          <div className="hidden md:flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-blue-50 text-[#0052B4] px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 border border-blue-200">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <Megaphone className="w-4 h-4 text-[#0052B4]" />
-              <span>LATEST ANNOUNCEMENTS</span>
-            </div>
-            
-            <div className="text-xs sm:text-sm text-slate-800 font-medium flex-1 min-w-0 truncate">
-              {events.length > 0 ? (
-                <span className="truncate inline-block max-w-full">
-                  <span className="bg-[#0052B4]/10 text-[#0052B4] px-2 py-0.5 rounded-md text-xs font-bold mr-2">
-                    {events[0].category}
-                  </span>
-                  <span className="font-semibold text-slate-900">{events[0].title}</span>
-                  {events[0].summary && (
-                    <span className="text-slate-600"> — {events[0].summary}</span>
-                  )}
-                </span>
-              ) : (
-                <span>Free CUET Entrance Coaching 2026-27 Registration Open for Shershahbadi Students.</span>
-              )}
-            </div>
-
-            <Link
-              to="/news-and-events"
-              className="text-xs font-bold text-[#0052B4] hover:text-[#003D87] shrink-0 flex items-center gap-1"
-            >
-              <span>View All Events</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-
         </div>
-      </div>
+      )}
 
       {/* --- OUR REACH 2025-26 METRICS SECTION --- */}
       <ReachImpactSection title="Reach 2025-26" />

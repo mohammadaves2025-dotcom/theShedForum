@@ -45,6 +45,16 @@ const submissionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: (doc, ret) => {
+      ret.id = ret._id.toString();
+      return ret;
+    }
+  },
+  toObject: { virtuals: true }
 });
 
 // Avoid model recompilation errors in serverless environments

@@ -76,8 +76,8 @@ export const ApiService = {
     }
   },
 
-  async getGallery() {
-    return fetchWithFallback('/gallery', initialData.gallery);
+  async getGallery(): Promise<any[]> {
+    return fetchWithFallback<any[]>('/gallery', initialData.gallery);
   },
 
   async addGalleryItem(item: any, file?: File | null) {
@@ -164,6 +164,84 @@ export const ApiService = {
       return await res.json();
     } catch (e) {
       return { success: true };
+    }
+  },
+
+  async deleteContactSubmission(id: string) {
+    try {
+      const res = await fetch(`${API_BASE}/contact/${id}`, { method: 'DELETE' });
+      return await res.json();
+    } catch (e) {
+      (initialData as any).contactSubmissions = (initialData as any).contactSubmissions.filter((c: any) => c.id !== id && c._id !== id);
+      return { success: true };
+    }
+  },
+
+  async setHeroImage(id: string) {
+    try {
+      const res = await fetch(`${API_BASE}/gallery/${id}/hero`, { method: 'PUT' });
+      return await res.json();
+    } catch (e) {
+      return { success: false };
+    }
+  },
+
+  async setHeroByUrl(url: string, title?: string) {
+    try {
+      const res = await fetch(`${API_BASE}/gallery/set-hero`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, title })
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false };
+    }
+  },
+
+  async getTicker() {
+    return fetchWithFallback('/ticker', {
+      enabled: true,
+      category: 'CUET 2026 ALERT',
+      text: 'CUET UG/PG 2026 Free Online Entrance Preparation Batch Registrations Now Open across all 7 University Units!',
+      link: '/centre'
+    });
+  },
+
+  async updateTicker(tickerData: any) {
+    try {
+      const res = await fetch(`${API_BASE}/ticker`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tickerData)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: true, data: tickerData };
+    }
+  },
+
+  async getNgoSettings() {
+    return fetchWithFallback('/settings', {
+      helplinePhone: '+91 77372-80758',
+      helplineEmail: 'theshedforum@gmail.com',
+      whatsappGroupUrl: 'https://chat.whatsapp.com/TheShEDForum',
+      delhiOffice: 'Batla House, Jamia Nagar, Okhla, New Delhi 110025',
+      biharOffice: 'Kishanganj City Center, Line Mohalla, Kishanganj 855107',
+      registrationNo: 'S-712/NGO/2018 (Registered Educational Society)'
+    });
+  },
+
+  async updateNgoSettings(settingsData: any) {
+    try {
+      const res = await fetch(`${API_BASE}/settings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settingsData)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: true, data: settingsData };
     }
   },
 

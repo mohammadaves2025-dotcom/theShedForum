@@ -173,7 +173,12 @@ router.get('/events', async (req, res) => {
   try {
     if (isConnected()) {
       const events = await Event.find().sort({ createdAt: -1 });
-      if (events.length > 0) return res.json({ success: true, data: events });
+      if (events.length > 0) {
+        return res.json({ 
+          success: true, 
+          data: events.map(e => ({ ...e.toObject(), id: e._id.toString() })) 
+        });
+      }
     }
     res.json({ success: true, data: db.events });
   } catch (e) {
@@ -185,7 +190,8 @@ router.post('/events', async (req, res) => {
   try {
     if (isConnected()) {
       const newEvent = await Event.create(req.body);
-      return res.status(201).json({ success: true, message: 'Event added to MongoDB', data: newEvent });
+      const resEvent = { ...newEvent.toObject(), id: newEvent._id.toString() };
+      return res.status(201).json({ success: true, message: 'Event added to MongoDB', data: resEvent });
     }
     const newEvent = {
       id: Date.now().toString(),
@@ -205,10 +211,10 @@ router.delete('/events/:id', async (req, res) => {
       await Event.findByIdAndDelete(req.params.id);
       return res.json({ success: true, message: 'Event deleted from MongoDB' });
     }
-    db.events = db.events.filter(e => e.id !== req.params.id);
+    db.events = db.events.filter(e => e.id !== req.params.id && e._id !== req.params.id);
     res.json({ success: true, message: 'Event deleted' });
   } catch (e) {
-    db.events = db.events.filter(e => e.id !== req.params.id);
+    db.events = db.events.filter(e => e.id !== req.params.id && e._id !== req.params.id);
     res.json({ success: true, message: 'Event deleted' });
   }
 });
@@ -218,7 +224,12 @@ router.get('/gallery', async (req, res) => {
   try {
     if (isConnected()) {
       const items = await GalleryItem.find().sort({ createdAt: -1 });
-      if (items.length > 0) return res.json({ success: true, data: items });
+      if (items.length > 0) {
+        return res.json({ 
+          success: true, 
+          data: items.map(item => ({ ...item.toObject(), id: item._id.toString() })) 
+        });
+      }
     }
     res.json({ success: true, data: db.gallery });
   } catch (e) {
@@ -291,7 +302,8 @@ router.post('/gallery', upload.single('image'), async (req, res) => {
 
     if (isConnected()) {
       const newItem = await GalleryItem.create(assetData);
-      return res.status(201).json({ success: true, message: 'Gallery asset saved to MongoDB Atlas', data: newItem });
+      const resItem = { ...newItem.toObject(), id: newItem._id.toString() };
+      return res.status(201).json({ success: true, message: 'Gallery asset saved to MongoDB Atlas', data: resItem });
     }
 
     const newItem = {
@@ -311,11 +323,48 @@ router.delete('/gallery/:id', async (req, res) => {
       await GalleryItem.findByIdAndDelete(req.params.id);
       return res.json({ success: true, message: 'Gallery item deleted from MongoDB' });
     }
-    db.gallery = db.gallery.filter(g => g.id !== req.params.id);
+    db.gallery = db.gallery.filter(g => g.id !== req.params.id && g._id !== req.params.id);
     res.json({ success: true, message: 'Gallery item deleted' });
   } catch (e) {
-    db.gallery = db.gallery.filter(g => g.id !== req.params.id);
+    db.gallery = db.gallery.filter(g => g.id !== req.params.id && g._id !== req.params.id);
     res.json({ success: true, message: 'Gallery item deleted' });
+  }
+});
+
+// Set active hero image live
+router.put('/gallery/:id/hero', async (req, res) => {
+  try {
+    if (isConnected()) {
+      await GalleryItem.updateMany({}, { isHero: false });
+      const target = await GalleryItem.findByIdAndUpdate(req.params.id, { isHero: true }, { new: true });
+      if (target) {
+        await Stats.findOneAndUpdate({}, { 'heroImage.url': target.url, 'heroImage.title': target.title }, { upsert: true });
+        return res.json({ success: true, message: 'Hero image updated in MongoDB', data: { ...target.toObject(), id: target._id.toString() } });
+      }
+    }
+    db.gallery = db.gallery.map(g => ({
+      ...g,
+      isHero: (g.id === req.params.id || g._id === req.params.id)
+    }));
+    const found = db.gallery.find(g => g.id === req.params.id || g._id === req.params.id);
+    res.json({ success: true, message: 'Hero image updated', data: found });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+router.put('/gallery/set-hero', async (req, res) => {
+  const { url, title } = req.body;
+  try {
+    if (isConnected()) {
+      await GalleryItem.updateMany({}, { isHero: false });
+      await GalleryItem.findOneAndUpdate({ url }, { isHero: true });
+      await Stats.findOneAndUpdate({}, { 'heroImage.url': url, 'heroImage.title': title || 'Homepage Hero' }, { upsert: true });
+      return res.json({ success: true, message: 'Hero image updated in MongoDB' });
+    }
+    res.json({ success: true, message: 'Hero image updated' });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
   }
 });
 
@@ -341,7 +390,8 @@ router.post('/contact', async (req, res) => {
 
   try {
     if (isConnected()) {
-      savedDoc = await Submission.create(submissionData);
+      const created = await Submission.create(submissionData);
+      savedDoc = { ...created.toObject(), id: created._id.toString() };
     }
   } catch (dbErr) {
     console.error('MongoDB save error (falling back to memory):', dbErr.message);
@@ -371,7 +421,12 @@ router.get('/contact', async (req, res) => {
   try {
     if (isConnected()) {
       const submissions = await Submission.find().sort({ createdAt: -1 });
-      if (submissions.length > 0) return res.json({ success: true, data: submissions });
+      if (submissions.length > 0) {
+        return res.json({ 
+          success: true, 
+          data: submissions.map(s => ({ ...s.toObject(), id: s._id.toString() })) 
+        });
+      }
     }
     res.json({ success: true, data: db.contactSubmissions });
   } catch (e) {
@@ -388,7 +443,13 @@ router.put('/contact/:id', async (req, res) => {
         { status: req.body.status }, 
         { new: true }
       );
-      if (updated) return res.json({ success: true, message: 'Status updated in MongoDB', data: updated });
+      if (updated) {
+        return res.json({ 
+          success: true, 
+          message: 'Status updated in MongoDB', 
+          data: { ...updated.toObject(), id: updated._id.toString() } 
+        });
+      }
     }
 
     const item = db.contactSubmissions.find(s => s.id === req.params.id || s._id === req.params.id);
@@ -397,6 +458,94 @@ router.put('/contact/:id', async (req, res) => {
       return res.json({ success: true, message: 'Status updated', data: item });
     }
     res.status(404).json({ success: false, message: 'Submission not found' });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// Delete submission from CRM
+router.delete('/contact/:id', async (req, res) => {
+  try {
+    if (isConnected()) {
+      await Submission.findByIdAndDelete(req.params.id);
+      return res.json({ success: true, message: 'Submission deleted from MongoDB' });
+    }
+    db.contactSubmissions = db.contactSubmissions.filter(s => s.id !== req.params.id && s._id !== req.params.id);
+    res.json({ success: true, message: 'Submission deleted' });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// Ticker Announcement endpoints
+router.get('/ticker', async (req, res) => {
+  try {
+    if (isConnected()) {
+      const statsDoc = await Stats.findOne().sort({ createdAt: -1 });
+      if (statsDoc && statsDoc.ticker) {
+        return res.json({ success: true, data: statsDoc.ticker });
+      }
+    }
+    res.json({
+      success: true,
+      data: db.ticker || {
+        enabled: true,
+        category: 'CUET 2026 ALERT',
+        text: 'CUET UG/PG 2026 Free Online Entrance Preparation Batch Registrations Now Open across all 7 University Units!',
+        link: '/centre'
+      }
+    });
+  } catch (e) {
+    res.json({ success: true, data: { enabled: true, category: 'CUET 2026 ALERT', text: 'CUET 2026 Guidance Active', link: '/centre' } });
+  }
+});
+
+router.put('/ticker', async (req, res) => {
+  try {
+    if (isConnected()) {
+      const updated = await Stats.findOneAndUpdate({}, { ticker: req.body }, { upsert: true, new: true });
+      return res.json({ success: true, message: 'Ticker updated in MongoDB', data: updated.ticker });
+    }
+    db.ticker = req.body;
+    res.json({ success: true, message: 'Ticker updated', data: req.body });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// Global NGO Settings endpoints
+router.get('/settings', async (req, res) => {
+  try {
+    if (isConnected()) {
+      const statsDoc = await Stats.findOne().sort({ createdAt: -1 });
+      if (statsDoc && statsDoc.ngoSettings) {
+        return res.json({ success: true, data: statsDoc.ngoSettings });
+      }
+    }
+    res.json({
+      success: true,
+      data: db.ngoSettings || {
+        helplinePhone: '+91 77372-80758',
+        helplineEmail: 'theshedforum@gmail.com',
+        whatsappGroupUrl: 'https://chat.whatsapp.com/TheShEDForum',
+        delhiOffice: 'Batla House, Jamia Nagar, Okhla, New Delhi 110025',
+        biharOffice: 'Kishanganj City Center, Line Mohalla, Kishanganj 855107',
+        registrationNo: 'S-712/NGO/2018 (Registered Educational Society)'
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+router.put('/settings', async (req, res) => {
+  try {
+    if (isConnected()) {
+      const updated = await Stats.findOneAndUpdate({}, { ngoSettings: req.body }, { upsert: true, new: true });
+      return res.json({ success: true, message: 'NGO settings saved in MongoDB', data: updated.ngoSettings });
+    }
+    db.ngoSettings = req.body;
+    res.json({ success: true, message: 'NGO settings saved', data: req.body });
   } catch (e) {
     res.status(500).json({ success: false, message: e.message });
   }

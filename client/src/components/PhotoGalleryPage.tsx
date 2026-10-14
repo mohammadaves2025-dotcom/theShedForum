@@ -3,6 +3,7 @@ import { Camera, Images } from 'lucide-react';
 import { ApiService } from '../services/api';
 import { ImageLightbox } from './ImageLightbox';
 import type { LightboxItem } from './ImageLightbox';
+import { PageHeroBanner } from './PageHeroBanner';
 
 const UNIT_TABS = [
   { key: 'all',    label: 'All Photos' },
@@ -72,34 +73,33 @@ export const PhotoGalleryPage: React.FC = () => {
   const openAt = (idx: number) => setLightboxIndex(idx);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+    <div className="bg-white min-h-screen">
+      
+      {/* --- PRATHAM-STYLE TOP HERO BANNER --- */}
+      <PageHeroBanner
+        image="/images/extracted_ShEd _p1_1.jpg"
+        badgeText="PHOTO GALLERY"
+        alt="The ShED Forum Photo Gallery"
+      />
 
-      {/* ── Hero Banner ──────────────────────────────────────────────── */}
-      <div className="relative bg-gradient-to-br from-[#0F172A] via-[#0A2A6E] to-[#0F172A] rounded-3xl overflow-hidden border border-slate-700 shadow-2xl">
-        {/* decorative dots */}
-        <div className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #60a5fa 1px, transparent 1px)',
-            backgroundSize: '28px 28px',
-          }}
-        />
-        <div className="relative z-10 p-8 sm:p-14 max-w-3xl space-y-4">
-          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-cyan-300 bg-white/10 px-4 py-1.5 rounded-full border border-white/20">
-            <Camera className="w-3.5 h-3.5" /> Media Archive
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
+        
+        {/* Editorial Heading */}
+        <div className="space-y-3 max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#0052B4] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
+            Visual Chronicle • Campus Archive
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-            Photo Gallery
+          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight leading-tight">
+            Moments of Impact & Campus Life
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            A visual chronicle of ShED Forum's journey across campuses — from grassroots meetups and 
-            orientation programmes to career guidance events and community gatherings.
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+            A visual chronicle of ShED Forum's journey across campuses — from grassroots meetups and orientation programmes to career guidance events and community gatherings.
           </p>
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-400 pt-1">
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-500 pt-1">
             <Images className="w-4 h-4 text-[#009A44]" />
             <span>{photos.length} photos · 3 campuses · MANUU, JMI &amp; AMU</span>
           </div>
         </div>
-      </div>
 
       {/* ── Campus / Unit Tab Filter ──────────────────────────────────── */}
       <div className="space-y-3">
@@ -147,13 +147,13 @@ export const PhotoGalleryPage: React.FC = () => {
           <p className="text-slate-500 font-semibold text-sm">No photos match this filter.</p>
         </div>
       ) : (
-        <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-0">
+        <div className="columns-1 xs:columns-2 sm:columns-3 lg:columns-4 gap-3.5 space-y-0">
           {filtered.map((item, idx) => {
             const h = HEIGHTS[idx % HEIGHTS.length];
             return (
               <div
                 key={item.id}
-                className="break-inside-avoid mb-3 group relative overflow-hidden rounded-2xl cursor-pointer border border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-300"
+                className="break-inside-avoid mb-3.5 group relative overflow-hidden rounded-2xl cursor-pointer border border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-300"
                 style={{ height: h }}
                 onClick={() => openAt(idx)}
               >
@@ -163,9 +163,9 @@ export const PhotoGalleryPage: React.FC = () => {
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 mb-0.5">
+                {/* Touch-friendly overlay with permanent subtle visibility on mobile, hover on desktop */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent opacity-85 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-3.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffbe00] mb-0.5">
                     {item.category}
                   </span>
                   <p className="text-white text-xs font-semibold leading-tight line-clamp-2">
@@ -189,10 +189,9 @@ export const PhotoGalleryPage: React.FC = () => {
         onClose={() => setLightboxIndex(null)}
         onPrev={() => setLightboxIndex(i => (i !== null ? (i - 1 + lbItems.length) % lbItems.length : null))}
         onNext={() => setLightboxIndex(i => (i !== null ? (i + 1) % lbItems.length : null))}
+        onGoTo={(idx) => setLightboxIndex(idx)}
       />
-
+      </div>
     </div>
   );
 };
-
-export const VideoGalleryPage: React.FC = () => <PhotoGalleryPage />;

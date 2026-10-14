@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { ApiService } from '../services/api';
+import { PageHeroBanner } from './PageHeroBanner';
 
 export const UnitsPage: React.FC = () => {
   const [units, setUnits] = useState<any[]>([]);
@@ -11,22 +12,29 @@ export const UnitsPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <div className="bg-white min-h-screen">
       
-      {/* Banner */}
-      <div className="bg-gradient-to-r from-[#0F172A] via-[#0052B4] to-[#009A44] rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden border border-slate-700">
-        <div className="relative z-10 max-w-3xl space-y-3">
-          <span className="text-xs font-black uppercase tracking-widest text-cyan-300 bg-white/10 px-3.5 py-1 rounded-full border border-white/20">
-            University Network
+      {/* --- PRATHAM-STYLE TOP HERO BANNER --- */}
+      <PageHeroBanner
+        image="/gallery/jmi-unit/jmi-group-centenary-gate-01.jpg"
+        badgeText="UNIVERSITY UNITS"
+        alt="ShED Forum Campus Units"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
+        
+        {/* Editorial Heading */}
+        <div className="space-y-3 max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#0052B4] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
+            Pan-India Student Chapters
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight leading-tight">
             Our 7 University Campus Units
           </h1>
-          <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
-            ShED Forum has built active student units across India's premier universities to ensure every admitted student receives peer mentorship, hostel support, and career guidance.
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+            Active student units across India's premier central universities ensuring every admitted first-generation scholar receives peer mentorship, verified hostel guidance, and zero imposter syndrome.
           </p>
         </div>
-      </div>
 
       {/* Grid of All Units */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -46,17 +54,32 @@ export const UnitsPage: React.FC = () => {
               className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                <div className="relative h-48 overflow-hidden bg-slate-100">
+                <div className="relative h-52 overflow-hidden bg-slate-900">
                   <img 
                     src={unit.image} 
                     alt={unit.name} 
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 opacity-90"
                   />
-                  <div className="absolute top-3 right-3 bg-slate-900/90 text-amber-300 text-xs font-black px-3 py-1 rounded-full border border-amber-300/30">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  <div className="absolute top-3 right-3 bg-slate-900/90 backdrop-blur-md text-amber-300 text-xs font-black px-3 py-1 rounded-full border border-amber-300/30">
                     Est. {unit.established}
                   </div>
-                  <div className={`absolute bottom-3 left-3 ${badgeColors[idx % badgeColors.length]} text-xs font-black px-3 py-1 rounded-lg shadow-md`}>
-                    {unit.code}
+                  <div className={`absolute bottom-3 left-3 ${badgeColors[idx % badgeColors.length]} text-xs font-black px-3.5 py-1 rounded-lg shadow-md uppercase tracking-wider`}>
+                    {unit.code} CAMPUS
+                  </div>
+
+                  {/* Floating Official Crest Seal */}
+                  <div className="absolute -bottom-5 right-5 w-14 h-14 bg-white rounded-2xl shadow-xl border border-slate-200/90 p-2 flex items-center justify-center z-10 group-hover:scale-110 group-hover:shadow-2xl transition-all">
+                    <img
+                      src={unit.logo || `/logos/universities/${unit.code.toLowerCase().replace(/[^a-z]/g, '')}.png`}
+                      alt={`${unit.name} Logo`}
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        const t = e.target as HTMLImageElement;
+                        t.src = '/logos/universities/manuu.png';
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -105,6 +128,7 @@ export const UnitsPage: React.FC = () => {
         })}
       </div>
 
+      </div>
     </div>
   );
 };

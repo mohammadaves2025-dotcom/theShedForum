@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { HelpdeskModal } from './components/HelpdeskModal';
 import { HomePage } from './components/HomePage';
 import { AboutPage } from './components/AboutPage';
+import { ShedCentrePage } from './components/ShedCentrePage';
 import { CentrePage } from './components/CentrePage';
 import { UnitsPage } from './components/UnitsPage';
 import { UnitDetailPage } from './components/UnitDetailPage';
@@ -12,11 +13,14 @@ import { ProjectsPage } from './components/ProjectsPage';
 import { MediaCornerPage, PressReleasePage } from './components/MediaCornerPage';
 import { NewsEventsPage } from './components/NewsEventsPage';
 import { PublicationsPage } from './components/PublicationsPage';
-import { PhotoGalleryPage, VideoGalleryPage } from './components/PhotoGalleryPage';
+import { PhotoGalleryPage } from './components/PhotoGalleryPage';
+import { VideoGalleryPage } from './components/VideoGalleryPage';
 import { ImpactWall } from './components/ImpactWall';
+import { StoryDetailPage } from './components/StoryDetailPage';
 import { PatronsMessagePage } from './components/PatronsMessagePage';
 import { ContactPage } from './components/ContactPage';
 import { AdminPage } from './components/AdminPage';
+import { DonatePage } from './components/DonatePage';
 
 // Scroll restoration: Ensures every link and button click opens the top of the destination page
 const ScrollToTop: React.FC = () => {
@@ -67,17 +71,24 @@ export const App: React.FC = () => {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/about" element={<AboutPage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
           <Route path="/patrons-message" element={<PatronsMessagePage />} />
           <Route path="/patron-message" element={<PatronsMessagePage />} />
           
-          {/* Shed / SCG Centre */}
-          <Route path="/centre" element={<CentrePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          {/* ShED Centre (Central Educational Dialogue & Resource Hub) */}
+          <Route path="/centre" element={<ShedCentrePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          <Route path="/shed-centre" element={<ShedCentrePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+
+          {/* SGC Centre (Shershahbadi Guidance & Coaching - Free CUET Preparation) */}
           <Route path="/sgc-centre" element={<CentrePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          <Route path="/scg-centre" element={<CentrePage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
 
           {/* Student Stories & Impact Wall */}
           <Route path="/student-stories" element={<ImpactWall onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          <Route path="/student-stories/:id" element={<StoryDetailPage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
           <Route path="/impact-stories" element={<ImpactWall onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          <Route path="/impact-stories/:id" element={<StoryDetailPage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
+          <Route path="/story/:id" element={<StoryDetailPage onOpenHelpdesk={() => setHelpdeskOpen(true)} />} />
 
           {/* Units Pages */}
           <Route path="/units" element={<UnitsPage />} />
@@ -98,6 +109,7 @@ export const App: React.FC = () => {
           <Route path="/photo-gallery" element={<PhotoGalleryPage />} />
           <Route path="/video-gallery" element={<VideoGalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/donate" element={<DonatePage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </main>

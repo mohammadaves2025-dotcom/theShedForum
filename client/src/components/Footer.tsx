@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Download } from 'lucide-react';
+import { Mail, MapPin, Download } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -62,7 +62,12 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <Link to="/centre" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
-                    SGC Centre
+                    ShED Centre
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sgc-centre" className="inline-block py-1 hover:text-[#00A3E0] transition-colors">
+                    SGC Coaching Centre
                   </Link>
                 </li>
                 <li>
@@ -151,15 +156,6 @@ export const Footer: React.FC = () => {
             </h4>
 
             <div className="space-y-3 text-xs font-medium">
-              <a href="tel:+917737280758" className="flex items-start gap-2.5 hover:text-white transition-colors group">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-[#00A3E0] flex items-center justify-center shrink-0 group-hover:bg-[#00A3E0] group-hover:text-white transition-colors">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Helpline</div>
-                  <div className="text-slate-200 font-semibold">+91 77372-80758</div>
-                </div>
-              </a>
 
               <a href="mailto:theshedforum@gmail.com" className="flex items-start gap-2.5 hover:text-white transition-colors group">
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-[#009A44] flex items-center justify-center shrink-0 group-hover:bg-[#009A44] group-hover:text-white transition-colors">

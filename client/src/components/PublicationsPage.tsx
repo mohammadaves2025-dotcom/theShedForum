@@ -1,5 +1,6 @@
 import React from 'react';
-import { Download, FileText, Sparkles } from 'lucide-react';
+import { Download, FileText } from 'lucide-react';
+import { PageHeroBanner } from './PageHeroBanner';
 
 export const PublicationsPage: React.FC = () => {
   const publications = [
@@ -30,23 +31,29 @@ export const PublicationsPage: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-10 sm:space-y-14">
+    <div className="bg-white min-h-screen">
       
-      {/* Banner */}
-      <div className="bg-gradient-to-r from-[#0F172A] via-[#0052B4] to-[#009A44] rounded-3xl p-6 sm:p-12 text-white shadow-xl border border-slate-700">
-        <div className="max-w-3xl space-y-3">
-          <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-white/10 px-3.5 py-1 rounded-full border border-white/20 inline-flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>Resources & Official Publications</span>
+      {/* --- PRATHAM-STYLE TOP HERO BANNER --- */}
+      <PageHeroBanner
+        image="/gallery/jmi-unit/jmi-book-launch-indoor-01.jpg"
+        badgeText="PUBLICATIONS"
+        alt="ShED Forum Official Booklets & Publications"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
+        
+        {/* Editorial Heading */}
+        <div className="space-y-3 max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#0052B4] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200">
+            Resources & Downloads
           </span>
-          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-white tracking-tight leading-tight">
-            Publications & PDF Downloads
+          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight leading-tight">
+            Publications & Policy Handbooks
           </h1>
-          <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
             Access official PDF booklets, organizational policy documents, and student guidance handbooks.
           </p>
         </div>
-      </div>
 
       {/* Publications Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -86,5 +93,6 @@ export const PublicationsPage: React.FC = () => {
       </div>
 
     </div>
-  );
+  </div>
+);
 };

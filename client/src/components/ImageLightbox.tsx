@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 
 export interface LightboxItem {
   src: string;
@@ -26,12 +26,23 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
   onNext,
   onGoTo,
 }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  // Reset zoom when switching images
+  useEffect(() => {
+    setIsZoomed(false);
+  }, [currentIndex]);
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (currentIndex === null) return;
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowLeft') onPrev();
       if (e.key === 'ArrowRight') onNext();
+      if (e.key === ' ' || e.key === 'z') {
+        e.preventDefault();
+        setIsZoomed((prev) => !prev);
+      }
     },
     [currentIndex, onClose, onPrev, onNext]
   );
@@ -58,38 +69,55 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex flex-col"
-      style={{ background: 'rgba(2,6,23,0.97)' }}
+      className="fixed inset-0 z-[9999] flex flex-col select-none transition-all duration-300"
+      style={{ 
+        background: 'rgba(0, 0, 0, 0.88)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+      }}
       onClick={onClose}
     >
-      {/* ── Top bar ────────────────────────────────────────────────── */}
+      {/* ── Top bar: Google Drive style frosted neutral dark header ── */}
       <div
-        className="flex items-center justify-between px-5 py-3 flex-shrink-0"
-        style={{ background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(16px)' }}
+        className="flex items-center justify-between px-4 sm:px-8 py-3.5 flex-shrink-0 border-b border-white/10 z-30"
+        style={{ 
+          background: 'rgba(0, 0, 0, 0.60)', 
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)'
+        }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Left: title + category */}
-        <div className="flex-1 min-w-0 pr-4">
+        {/* Left: Category badge & Title */}
+        <div className="flex-1 min-w-0 pr-4 flex items-center gap-2.5">
           {item.category && (
-            <span className="inline-block text-[10px] font-bold tracking-widest uppercase text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2.5 py-0.5 rounded-full mb-1">
+            <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full shrink-0">
               {item.category}
             </span>
           )}
           {item.title && (
-            <p className="text-white text-sm font-semibold truncate leading-tight">
+            <p className="text-white text-xs sm:text-sm md:text-base font-semibold truncate leading-tight">
               {item.title}
             </p>
           )}
         </div>
 
-        {/* Right: counter + close */}
-        <div className="flex items-center gap-3 flex-shrink-0">
-          <span className="text-slate-400 text-xs font-mono font-bold tabular-nums">
+        {/* Right: Counter + Zoom + Close */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <span className="text-white/80 text-xs sm:text-sm font-mono font-medium tabular-nums bg-white/10 px-2.5 py-1 rounded-lg border border-white/15">
             {currentIndex + 1} / {total}
           </span>
+
+          <button
+            onClick={() => setIsZoomed(!isZoomed)}
+            className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/15 transition-all cursor-pointer"
+            title={isZoomed ? "Zoom Out (Z)" : "Zoom In (Z)"}
+          >
+            {isZoomed ? <ZoomOut className="w-5 h-5 text-amber-300" /> : <ZoomIn className="w-5 h-5" />}
+          </button>
+
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+            className="p-2 rounded-full text-white/80 hover:text-white hover:bg-white/15 transition-all cursor-pointer"
             title="Close (Esc)"
           >
             <X className="w-5 h-5" />
@@ -97,76 +125,109 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         </div>
       </div>
 
-      {/* ── Main image area ─────────────────────────────────────────── */}
-      <div className="flex-1 relative flex items-center justify-center overflow-hidden">
-        {/* Prev */}
-        <button
-          onClick={e => { e.stopPropagation(); onPrev(); }}
-          className="absolute left-3 sm:left-6 z-10 p-3 rounded-full text-white transition-all"
-          style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)' }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.18)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
-          title="Previous (←)"
-        >
-          <ChevronLeft className="w-7 h-7" />
-        </button>
+      {/* ── Main image area: Google Drive style BIG Expansive Viewport ── */}
+      <div className="flex-1 relative w-full h-full flex items-center justify-center overflow-hidden p-2 sm:p-4 md:p-6">
+        
+        {/* Previous Button (Google Drive translucent circular button) */}
+        {total > 1 && (
+          <button
+            onClick={e => { e.stopPropagation(); onPrev(); }}
+            className="absolute left-2 sm:left-6 md:left-8 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full text-white/90 hover:text-white transition-all shadow-2xl hover:scale-105 active:scale-95 cursor-pointer border border-white/20 flex items-center justify-center"
+            style={{ 
+              background: 'rgba(0, 0, 0, 0.50)', 
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)'
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.75)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.50)')}
+            title="Previous (←)"
+          >
+            <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />
+          </button>
+        )}
 
-        {/* Image */}
+        {/* Expansive Image Container */}
         <div
-          className="relative max-w-[90vw] max-h-[calc(100vh-140px)] flex items-center justify-center"
+          className="relative flex items-center justify-center w-full h-full overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
           <img
             key={currentIndex}
             src={item.src}
             alt={item.title || `Photo ${currentIndex + 1}`}
-            className="max-w-full max-h-[calc(100vh-140px)] object-contain rounded-lg shadow-2xl"
+            onClick={() => setIsZoomed(!isZoomed)}
+            className={`rounded-lg sm:rounded-xl shadow-2xl object-contain transition-all duration-200 select-none ${
+              isZoomed ? 'scale-125 cursor-zoom-out' : 'cursor-zoom-in hover:opacity-98'
+            }`}
             style={{
-              boxShadow: '0 25px 80px rgba(0,0,0,0.8)',
-              animation: 'lb-fade-in 0.18s ease',
+              width: '100%',
+              height: '100%',
+              maxWidth: isZoomed ? '98vw' : '94vw',
+              maxHeight: isZoomed 
+                ? 'calc(100vh - 90px)' 
+                : (total > 1 ? 'calc(100vh - 170px)' : 'calc(100vh - 120px)'),
+              objectFit: 'contain',
+              boxShadow: '0 25px 80px -15px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 0, 0, 0.8)',
+              animation: 'lb-fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         </div>
 
-        {/* Next */}
-        <button
-          onClick={e => { e.stopPropagation(); onNext(); }}
-          className="absolute right-3 sm:right-6 z-10 p-3 rounded-full text-white transition-all"
-          style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)' }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.18)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
-          title="Next (→)"
-        >
-          <ChevronRight className="w-7 h-7" />
-        </button>
+        {/* Next Button (Google Drive translucent circular button) */}
+        {total > 1 && (
+          <button
+            onClick={e => { e.stopPropagation(); onNext(); }}
+            className="absolute right-2 sm:right-6 md:right-8 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full text-white/90 hover:text-white transition-all shadow-2xl hover:scale-105 active:scale-95 cursor-pointer border border-white/20 flex items-center justify-center"
+            style={{ 
+              background: 'rgba(0, 0, 0, 0.50)', 
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)'
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.75)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.50)')}
+            title="Next (→)"
+          >
+            <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />
+          </button>
+        )}
       </div>
 
-      {/* ── Bottom caption bar ──────────────────────────────────────── */}
+      {/* ── Bottom caption bar (Google Drive style neutral dark) ─────────── */}
       {item.caption && (
         <div
-          className="px-6 py-3 flex-shrink-0 text-center"
-          style={{ background: 'rgba(15,23,42,0.85)', backdropFilter: 'blur(16px)' }}
+          className="px-6 py-2.5 flex-shrink-0 text-center border-t border-white/10 z-30"
+          style={{ 
+            background: 'rgba(0, 0, 0, 0.65)', 
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)'
+          }}
           onClick={e => e.stopPropagation()}
         >
-          <p className="text-slate-300 text-xs leading-relaxed max-w-2xl mx-auto">{item.caption}</p>
+          <p className="text-white/85 text-xs sm:text-sm font-normal leading-relaxed max-w-3xl mx-auto">
+            {item.caption}
+          </p>
         </div>
       )}
 
-      {/* ── Thumbnail filmstrip ─────────────────────────────────────── */}
+      {/* ── Thumbnail filmstrip (Neutral Dark with Blur) ─────────────────── */}
       {total > 1 && (
         <div
-          className="px-4 py-3 flex gap-2 overflow-x-auto flex-shrink-0 justify-center scrollbar-thin"
-          style={{ background: 'rgba(2,6,23,0.95)' }}
+          className="px-4 py-2.5 flex gap-2 overflow-x-auto flex-shrink-0 justify-center scrollbar-thin border-t border-white/10 z-30"
+          style={{ 
+            background: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)'
+          }}
           onClick={e => e.stopPropagation()}
         >
           {items.map((it, idx) => (
             <button
               key={idx}
               onClick={() => onGoTo ? onGoTo(idx) : undefined}
-              className={`flex-shrink-0 w-12 h-9 rounded-lg overflow-hidden border-2 transition-all ${
+              className={`flex-shrink-0 w-12 h-9 sm:w-16 sm:h-11 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                 idx === currentIndex
-                  ? 'border-[#0052B4] scale-110 shadow-lg shadow-blue-500/30'
-                  : 'border-white/10 opacity-50 hover:opacity-80 hover:border-white/30'
+                  ? 'border-white scale-110 shadow-lg ring-2 ring-white/40'
+                  : 'border-white/15 opacity-40 hover:opacity-80 hover:border-white/40'
               }`}
             >
               <img src={it.src} alt="" className="w-full h-full object-cover" />

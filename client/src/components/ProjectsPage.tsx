@@ -3,8 +3,10 @@ import {
   GraduationCap, BookOpen, Users, HelpCircle, 
   Megaphone, HeartHandshake, Award, Sparkles, ArrowRight, 
   Calendar, CheckCircle2, ShieldCheck, Heart, 
-  IndianRupee, Briefcase, Filter
+  Briefcase
 } from 'lucide-react';
+import { ScholarLifecycleSection } from './ScholarLifecycleSection';
+import { PageHeroBanner } from './PageHeroBanner';
 
 interface ProjectsPageProps {
   onOpenHelpdesk: () => void;
@@ -240,270 +242,196 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenHelpdesk }) =>
     ? detailedInitiatives
     : detailedInitiatives.filter(item => item.category === selectedFilter);
 
-  const roadmapSteps = [
-    {
-      num: "01",
-      title: "Grassroots Identification",
-      desc: "Outreach volunteers visit villages in Seemanchal, counseling students and parents about central universities.",
-      icon: Megaphone,
-      color: "bg-emerald-500"
-    },
-    {
-      num: "02",
-      title: "Free SCG Coaching",
-      desc: "Aspirants receive 60-day intensive CUET training, study materials, and subject mock tests completely free.",
-      icon: GraduationCap,
-      color: "bg-blue-600"
-    },
-    {
-      num: "03",
-      title: "Admission Helpdesk",
-      desc: "Dedicated unit volunteers guide students through entrance forms, cutoffs, document verification, and hostels.",
-      icon: HelpCircle,
-      color: "bg-amber-500"
-    },
-    {
-      num: "04",
-      title: "Campus Mentorship",
-      desc: "Senior campus scholars adopt freshers in Jamia, AMU, MANUU, DU, JNU, HCU to ease transition.",
-      icon: Users,
-      color: "bg-indigo-600"
-    },
-    {
-      num: "05",
-      title: "Soft Skills & English",
-      desc: "6-month spoken English and personality training empowers vernacular-medium students for academic success.",
-      icon: BookOpen,
-      color: "bg-cyan-500"
-    },
-    {
-      num: "06",
-      title: "Career & Placement",
-      desc: "Alumni network guides final-year scholars into civil services, corporate careers, NET-JRF, and research.",
-      icon: Briefcase,
-      color: "bg-purple-600"
-    }
-  ];
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 lg:space-y-20">
+    <div className="bg-white min-h-screen">
       
-      {/* --- HERO BANNER --- */}
-      <div className="bg-gradient-to-r from-[#0F172A] via-[#0052B4] to-[#009A44] rounded-3xl p-8 sm:p-14 text-white shadow-2xl relative overflow-hidden border border-slate-700">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-cyan-300 bg-white/10 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-xs">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+      {/* --- PRATHAM-STYLE TOP HERO BANNER --- */}
+      <PageHeroBanner
+        image="/images/hero/hero-2.jpg"
+        badgeText="OUR INITIATIVES"
+        alt="The ShED Forum - Educational Initiatives & Social Impact"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14 lg:space-y-16">
+        
+        {/* Editorial Heading & Quick CTAs */}
+        <div className="space-y-4 max-w-4xl">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#0052B4] bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>Structured Educational Architecture • 8 Flagship Initiatives</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif-heading font-semibold text-white tracking-tight leading-[1.15]">
+          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight leading-[1.2]">
             Our Educational Initiatives & Social Impact
           </h1>
 
-          <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed font-normal">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
             From grassroots mobilization across remote Seemanchal villages to entrance coaching and doctoral research placement in premier central universities, explore how ShED Forum turns educational aspirations into reality.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
             <button
               onClick={onOpenHelpdesk}
-              className="bg-white hover:bg-slate-100 text-[#0052B4] font-bold px-6 py-3 rounded-xl shadow-lg transition-all text-xs sm:text-sm flex items-center gap-2 active:scale-98"
+              className="bg-[#0052B4] hover:bg-[#003D87] text-white font-bold px-6 py-3 rounded-xl shadow-md transition-all text-xs sm:text-sm flex items-center gap-2 active:scale-98 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-amber-500" />
+              <Sparkles className="w-4 h-4 text-amber-300" />
               <span>Inquire / Join as Student</span>
             </button>
             <a
               href="#roadmap"
-              className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-xl border border-white/20 transition-all text-xs sm:text-sm flex items-center gap-2"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-5 py-3 rounded-xl border border-slate-300 transition-all text-xs sm:text-sm flex items-center gap-2"
             >
               <span>Explore 6-Step Journey</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-[#0052B4]" />
             </a>
           </div>
+
+          {/* Quick Stat Counters */}
+          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 border-t border-slate-200 mt-6">
+            <div className="p-3 sm:p-0 bg-slate-50/70 sm:bg-transparent rounded-xl border sm:border-0 border-slate-200/60">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif-heading text-[#0052B4]">8 Programs</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 font-medium">Complete Lifecycle</div>
+            </div>
+            <div className="p-3 sm:p-0 bg-slate-50/70 sm:bg-transparent rounded-xl border sm:border-0 border-slate-200/60">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif-heading text-[#009A44]">100% Free</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 font-medium">Zero Guidance Charges</div>
+            </div>
+            <div className="p-3 sm:p-0 bg-slate-50/70 sm:bg-transparent rounded-xl border sm:border-0 border-slate-200/60">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif-heading text-amber-600">₹7.5 Lakh+</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 font-medium">Annual Impact Pool</div>
+            </div>
+            <div className="p-3 sm:p-0 bg-slate-50/70 sm:bg-transparent rounded-xl border sm:border-0 border-slate-200/60">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif-heading text-indigo-600">1,000+</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 font-medium">Scholars Reached</div>
+            </div>
+          </div>
         </div>
 
-        {/* Banner Quick Stat Counters */}
-        <div className="relative z-10 pt-8 mt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center sm:text-left">
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-white">8 Programs</div>
-            <div className="text-xs text-slate-300 font-medium">Covering Complete Student Lifecycle</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-emerald-300">100% Free</div>
-            <div className="text-xs text-slate-300 font-medium">No Tuition or Guidance Charges</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-amber-300">₹7.5 Lakh+</div>
-            <div className="text-xs text-slate-300 font-medium">Annual Community Impact Pool</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-cyan-300">1,000+</div>
-            <div className="text-xs text-slate-300 font-medium">Scholars Transformed Since 2018</div>
-          </div>
-        </div>
-      </div>
-
-      {/* --- SECTION: 6-STEP IMPACT LIFECYCLE ROADMAP --- */}
-      <div id="roadmap" className="space-y-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#0052B4] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            Educational Transformation Pathway
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-serif-heading font-semibold text-slate-900 tracking-tight">
-            How ShED Forum Guides a Student From Village to University
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 font-normal">
-            A cohesive 6-phase support system ensuring no student falls through the cracks at any step of their academic journey.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 pt-4">
-          {roadmapSteps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div 
-                key={idx} 
-                className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-black font-mono text-slate-300 group-hover:text-[#0052B4] transition-colors">
-                      {step.num}
-                    </span>
-                    <div className={`w-8 h-8 rounded-lg ${step.color} text-white flex items-center justify-center shadow-xs`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#0052B4] transition-colors leading-snug">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      {/* --- SECTION: 8-STAGE SCHOLAR LIFECYCLE ROADMAP (PRATHAM-INSPIRED TEMPLATE) --- */}
+      <div id="roadmap" className="-mx-4 sm:-mx-6 lg:-mx-8">
+        <ScholarLifecycleSection onOpenHelpdesk={onOpenHelpdesk} showFullDetailsLink={false} />
       </div>
 
       {/* --- SECTION: INITIATIVES CATALOG WITH FILTERS --- */}
-      <div className="space-y-8">
+      <div className="space-y-10">
         
         {/* Header & Filter Tabs */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
-          <div className="space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#009A44]">Programs Catalog</span>
-            <h2 className="text-2xl sm:text-3xl font-serif-heading font-semibold text-slate-900">
-              Explore All Initiatives
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-6">
+          <div className="space-y-2">
+            <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider bg-[#ffbe00] text-black px-4 py-1.5 rounded-sm shadow-xs">
+              Programs Architecture
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight">
+              Explore All 8 Initiatives
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 font-normal">
-              Browse detailed budgets, operational timelines, and key highlights for each program.
+            <p className="text-sm sm:text-base text-slate-600 max-w-2xl font-normal leading-relaxed">
+              Browse comprehensive operational budgets, active program schedules, and verified impact deliverables across our complete educational lifecycle.
             </p>
           </div>
 
           {/* Interactive Filter Pills */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <Filter className="w-4 h-4 text-slate-400 mr-1 hidden sm:inline" />
-            {filterTabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setSelectedFilter(tab.key)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 min-h-[38px] ${
-                  selectedFilter === tab.key
-                    ? 'bg-[#0052B4] text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${selectedFilter === tab.key ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'}`}>
-                  {tab.count}
-                </span>
-              </button>
-            ))}
+          <div className="flex items-center gap-2 flex-wrap">
+            {filterTabs.map((tab) => {
+              const isSelected = selectedFilter === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setSelectedFilter(tab.key)}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 min-h-[42px] cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#ffbe00] text-black shadow-md font-extrabold scale-102'
+                      : 'bg-white text-slate-700 hover:text-slate-950 border border-slate-200/90 hover:border-slate-400 shadow-2xs'
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
+                    isSelected ? 'bg-black/15 text-black' : 'bg-slate-100 text-slate-600'
+                  }`}>
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Initiatives Detailed Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Initiatives Detailed Cards Grid (Reimagined with Pratham UI) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
           {filteredItems.map((item) => {
-            const Icon = item.icon;
             return (
               <div 
                 key={item.id}
-                className={`bg-white rounded-3xl border ${item.colorScheme.border} overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group`}
+                className="group bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   
-                  {/* Photo & Category Ribbon Header */}
-                  <div className="relative h-52 sm:h-60 overflow-hidden bg-slate-100">
+                  {/* Photo Header with Pratham Signature Yellow Badge */}
+                  <div className="relative h-64 sm:h-72 overflow-hidden bg-slate-950">
                     <img 
                       src={item.image} 
                       alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-95"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className={`text-[10.5px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border shadow-xs flex items-center gap-1.5 ${item.colorScheme.badgeBg}`}>
-                        <Icon className="w-3.5 h-3.5" />
-                        <span>{item.category}</span>
-                      </span>
+                    {/* Pratham Signature Yellow Badge anchored bottom-left */}
+                    <div className="absolute bottom-0 left-0 bg-[#ffbe00] text-black text-[11px] font-black uppercase tracking-wider px-4 py-1.5 shadow-md">
+                      {item.category}
                     </div>
 
-                    {/* Timeline Badge */}
-                    <div className="absolute top-4 right-4 bg-slate-900/90 text-amber-300 text-[11px] font-bold px-3 py-1 rounded-full border border-amber-300/30 flex items-center gap-1.5 backdrop-blur-xs">
-                      <Calendar className="w-3.5 h-3.5" />
+                    {/* Timeline Badge top-right */}
+                    <div className="absolute top-3.5 right-3.5 bg-black/60 backdrop-blur-md text-amber-300 text-xs font-bold px-3.5 py-1 rounded-full border border-amber-300/30 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-amber-400" />
                       <span>{item.timeline}</span>
-                    </div>
-
-                    {/* Title in Image Overlay */}
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <div className="flex items-center gap-2 text-cyan-300 text-xs font-semibold mb-1">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                        <span>{item.subtitle}</span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-serif-heading font-semibold text-white leading-tight">
-                        {item.title}
-                      </h3>
                     </div>
                   </div>
 
                   {/* Card Content Body */}
-                  <div className="p-6 sm:p-7 space-y-5">
+                  <div className="p-6 sm:p-8 space-y-5">
                     
+                    <div>
+                      <span className="text-[11px] font-bold text-[#0052B4] uppercase tracking-wider block">
+                        {item.subtitle}
+                      </span>
+                      <h3 className="text-2xl sm:text-3xl font-serif-heading font-semibold text-slate-900 group-hover:text-[#0052B4] transition-colors leading-tight mt-1">
+                        {item.title}
+                      </h3>
+                    </div>
+
                     {/* Narrative Description */}
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                       {item.description}
                     </p>
 
-                    {/* Key Metrics Strip */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs">
-                      <div>
-                        <span className="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider block">Estimated Budget:</span>
-                        <span className="font-bold text-slate-900 font-mono flex items-center gap-1 mt-0.5">
-                          <IndianRupee className="w-3 h-3 text-[#009A44]" />
+                    {/* Warm Dual Metric Boxes (Budget & Beneficiaries) */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 space-y-0.5">
+                        <span className="text-[10.5px] font-bold uppercase tracking-wider text-amber-800 block">
+                          Estimated Budget
+                        </span>
+                        <span className="text-sm font-bold text-slate-900 font-mono block">
                           {item.budget}
                         </span>
                       </div>
-                      <div>
-                        <span className="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider block">Primary Beneficiaries:</span>
-                        <span className="font-semibold text-slate-800 line-clamp-1 mt-0.5">
+
+                      <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-4 space-y-0.5">
+                        <span className="text-[10.5px] font-bold uppercase tracking-wider text-[#0052B4] block">
+                          Primary Beneficiaries
+                        </span>
+                        <span className="text-xs font-semibold text-slate-800 line-clamp-1 block mt-0.5">
                           {item.targetAudience}
                         </span>
                       </div>
                     </div>
 
-                    {/* Verified Deliverables Checklist */}
-                    <div className="space-y-2">
-                      <span className="text-xs font-bold text-slate-900 block uppercase tracking-wider">
+                    {/* Key Deliverables Checklist */}
+                    <div className="space-y-2.5 pt-2">
+                      <span className="text-xs font-black text-slate-900 block uppercase tracking-wider">
                         Key Impact Deliverables:
                       </span>
-                      <ul className="space-y-1.5 text-xs text-slate-600 font-medium">
+                      <ul className="space-y-2 text-xs text-slate-700 font-medium">
                         {item.impactHighlights.map((hl, i) => (
-                          <li key={i} className="flex items-start gap-2">
+                          <li key={i} className="flex items-start gap-2.5">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                             <span>{hl}</span>
                           </li>
@@ -516,18 +444,18 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenHelpdesk }) =>
                 </div>
 
                 {/* Card Footer Actions */}
-                <div className="p-6 pt-0 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                  <div className="text-[11px] text-slate-500 font-semibold flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-[#0052B4]" />
+                <div className="p-6 sm:p-8 pt-0 border-t border-slate-100 mt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-[11px] text-slate-500 font-bold flex items-center gap-1.5 uppercase tracking-wider">
+                    <ShieldCheck className="w-4 h-4 text-[#009A44]" />
                     <span>100% Volunteer Supported • Non-Profit</span>
                   </div>
 
                   <button
                     onClick={onOpenHelpdesk}
-                    className="w-full sm:w-auto bg-[#0052B4] hover:bg-[#003D87] text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 active:scale-95"
+                    className="w-full sm:w-auto bg-[#ffbe00] hover:bg-[#e6ab00] text-black px-6 py-3 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 group-hover:scale-102 active:scale-95 cursor-pointer"
                   >
                     <span>Inquire / Participate</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 text-black" />
                   </button>
                 </div>
 
@@ -538,117 +466,153 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onOpenHelpdesk }) =>
 
       </div>
 
-      {/* --- SECTION: ANNUAL BUDGET ALLOCATION & TRANSPARENCY --- */}
-      <div className="bg-slate-50 rounded-3xl p-6 sm:p-10 border border-slate-200/90 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0052B4] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-              Institutional Governance
+      {/* --- SECTION: ANNUAL BUDGET ALLOCATION & FINANCIAL TRANSPARENCY (REIMAGINED) --- */}
+      <div className="bg-white rounded-3xl p-6 sm:p-12 border border-slate-200 shadow-sm space-y-8">
+        
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-slate-100 pb-6">
+          <div className="space-y-2 max-w-3xl">
+            <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider bg-blue-50 text-[#0052B4] px-4 py-1.5 rounded-sm border border-blue-200">
+              Institutional Governance &amp; Transparency
             </span>
-            <h3 className="text-xl sm:text-3xl font-serif-heading font-semibold text-slate-900 mt-2">
-              Annual Program Budget & Transparency
+            <h3 className="text-2xl sm:text-4xl font-serif-heading font-semibold text-slate-900 tracking-tight">
+              Annual Program Budget &amp; Financial Blueprint
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 font-normal max-w-2xl mt-1">
-              As outlined in our official organizational blueprint, estimated program expenses are met through voluntary contributions from patrons, alumni, and community well-wishers.
+            <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+              As outlined in our official organizational charter, 100% of community patron and alumni contributions go directly into student welfare, books, and coaching—with zero administrative deductions.
             </p>
           </div>
 
           <button
             onClick={onOpenHelpdesk}
-            className="bg-[#009A44] hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-colors shrink-0 flex items-center gap-2 shadow-xs"
+            className="bg-[#009A44] hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer"
           >
-            <Heart className="w-3.5 h-3.5 text-white" />
+            <Heart className="w-4 h-4 text-white fill-white" />
             <span>Support an Initiative</span>
           </button>
         </div>
 
-        {/* Budget Table */}
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-slate-100/80 text-slate-700 uppercase tracking-wider font-bold text-[10.5px] border-b border-slate-200">
-                <th className="py-3 px-4">Initiative Name</th>
-                <th className="py-3 px-4">Program Pillar</th>
-                <th className="py-3 px-4">Estimated Budget</th>
-                <th className="py-3 px-4">Funding Source</th>
-                <th className="py-3 px-4">Schedule</th>
-              </tr>
-            </thead>
+        {/* 3 Quick Metric Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">Total Estimated Annual Budget</span>
+            <span className="text-xl sm:text-2xl font-bold font-mono text-[#0052B4] block">₹7,50,000 – ₹9,50,000</span>
+            <span className="text-[11px] text-slate-500 block">Covering 8 flagship initiatives</span>
+          </div>
+
+          <div className="bg-emerald-50/60 border border-emerald-200/80 rounded-2xl p-5 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 block">Administrative Overhead</span>
+            <span className="text-xl sm:text-2xl font-bold font-mono text-[#009A44] block">0% Deductions</span>
+            <span className="text-[11px] text-emerald-700 block">100% directly empowers students</span>
+          </div>
+
+          <div className="bg-amber-50/60 border border-amber-200/80 rounded-2xl p-5 space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 block">Primary Funding Model</span>
+            <span className="text-xl sm:text-2xl font-bold text-slate-900 block font-serif-heading">Community Patrons</span>
+            <span className="text-[11px] text-amber-700 block">Voluntary alumni &amp; well-wishers</span>
+          </div>
+        </div>
+
+        {/* Redesigned Budget Table with Mobile Scroll Support */}
+        <div className="space-y-2">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-2xs">
+            <table className="w-full min-w-[640px] text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-800 uppercase tracking-wider font-extrabold text-[11px] border-b border-slate-200">
+                  <th className="py-4 px-5">Initiative Name</th>
+                  <th className="py-4 px-5">Program Pillar</th>
+                  <th className="py-4 px-5">Estimated Budget</th>
+                  <th className="py-4 px-5">Funding Source</th>
+                  <th className="py-4 px-5">Operational Schedule</th>
+                </tr>
+              </thead>
             <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">SCG CUET Coaching Program</td>
-                <td className="py-3 px-4">Academic Coaching</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">₹3,00,000 – ₹3,50,000</td>
-                <td className="py-3 px-4">Community Patrons & Alumni</td>
-                <td className="py-3 px-4">November to June</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">SCG CUET Coaching Program</td>
+                <td className="py-4 px-5"><span className="bg-blue-50 text-[#0052B4] font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Academic Coaching</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-slate-900 text-xs sm:text-sm">₹3,00,000 – ₹3,50,000</td>
+                <td className="py-4 px-5">Community Patrons &amp; Alumni</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">November to June</td>
               </tr>
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">Grassroots Ground Outreach</td>
-                <td className="py-3 px-4">Grassroots Mobilization</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">₹2,50,000 – ₹3,00,000</td>
-                <td className="py-3 px-4">Community Contributions</td>
-                <td className="py-3 px-4">Summer / Winter Vacations</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">Grassroots Ground Outreach</td>
+                <td className="py-4 px-5"><span className="bg-emerald-50 text-[#009A44] font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Mobilization</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-slate-900 text-xs sm:text-sm">₹2,50,000 – ₹3,00,000</td>
+                <td className="py-4 px-5">Community Contributions</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">Summer / Winter Vacations</td>
               </tr>
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">English Spoken & Soft Skills</td>
-                <td className="py-3 px-4">Skill Training</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">₹1,50,000 – ₹2,00,000</td>
-                <td className="py-3 px-4">Alumni Association</td>
-                <td className="py-3 px-4">July to December</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">English Spoken &amp; Soft Skills</td>
+                <td className="py-4 px-5"><span className="bg-cyan-50 text-cyan-800 font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Skill Training</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-slate-900 text-xs sm:text-sm">₹1,50,000 – ₹2,00,000</td>
+                <td className="py-4 px-5">Alumni Association</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">July to December</td>
               </tr>
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">University Admission Helpdesk</td>
-                <td className="py-3 px-4">Student Welfare</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">₹25,000 – ₹30,000</td>
-                <td className="py-3 px-4">Campus Unit Funds</td>
-                <td className="py-3 px-4">January to June</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">University Admission Helpdesk</td>
+                <td className="py-4 px-5"><span className="bg-amber-50 text-amber-800 font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Student Welfare</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-slate-900 text-xs sm:text-sm">₹25,000 – ₹30,000</td>
+                <td className="py-4 px-5">Campus Unit Funds</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">January to June</td>
               </tr>
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">Women’s Empowerment & Foundation Day</td>
-                <td className="py-3 px-4">Annual Assembly</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">₹25,000 – ₹50,000</td>
-                <td className="py-3 px-4">Event Patrons</td>
-                <td className="py-3 px-4">March 8th Annually</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">Women’s Empowerment &amp; Foundation Day</td>
+                <td className="py-4 px-5"><span className="bg-rose-50 text-rose-800 font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Annual Assembly</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-slate-900 text-xs sm:text-sm">₹25,000 – ₹50,000</td>
+                <td className="py-4 px-5">Event Patrons</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">March 8th Annually</td>
               </tr>
-              <tr className="hover:bg-slate-50">
-                <td className="py-3 px-4 font-bold text-slate-900">Central Placement Cell</td>
-                <td className="py-3 px-4">Career & Employment</td>
-                <td className="py-3 px-4 font-mono font-bold text-[#0052B4]">Self-Sustaining</td>
-                <td className="py-3 px-4">Alumni Mentorship Network</td>
-                <td className="py-3 px-4">Feb to March</td>
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="py-4 px-5 font-bold text-slate-900">Central Placement Cell</td>
+                <td className="py-4 px-5"><span className="bg-purple-50 text-purple-800 font-bold px-2.5 py-0.5 rounded-full text-[10.5px]">Career &amp; Placement</span></td>
+                <td className="py-4 px-5 font-mono font-bold text-emerald-700 text-xs sm:text-sm">Self-Sustaining</td>
+                <td className="py-4 px-5">Alumni Mentorship Network</td>
+                <td className="py-4 px-5 font-semibold text-slate-600">Feb to March</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p className="text-[11px] text-slate-500 sm:hidden flex items-center gap-1 pt-0.5 px-1">
+          <span className="font-bold text-[#0052B4]">Tip:</span> Swipe table horizontally to view all columns →
+        </p>
+      </div>
       </div>
 
-      {/* --- BOTTOM CTA: GET INVOLVED --- */}
-      <div className="bg-gradient-to-br from-slate-900 to-[#0052B4] rounded-3xl p-8 sm:p-12 text-white text-center space-y-4 shadow-xl">
-        <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-white/10 px-3.5 py-1 rounded-full border border-white/20">
-          Make a Meaningful Difference
-        </span>
-        <h3 className="text-2xl sm:text-4xl font-serif-heading font-semibold text-white max-w-2xl mx-auto">
-          Want to Volunteer, Mentor, or Support One of These Initiatives?
-        </h3>
-        <p className="text-xs sm:text-sm text-slate-200 max-w-xl mx-auto font-normal">
-          Whether you are an alumnus, a university scholar, or a community patron, every hand extended multiplies educational opportunities for our rural youth.
-        </p>
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-          <button
-            onClick={onOpenHelpdesk}
-            className="bg-white hover:bg-slate-100 text-[#0052B4] font-bold px-6 py-3 rounded-xl text-xs sm:text-sm transition-all shadow-md active:scale-98"
-          >
-            <span>Connect With Us on Helpdesk</span>
-          </button>
-          <a
-            href="tel:+917737280758"
-            className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-xl border border-white/20 text-xs sm:text-sm transition-all"
-          >
-            <span>Call Helpline: +91 77372-80758</span>
-          </a>
+      {/* --- BOTTOM CTA: PRATHAM-INSPIRED FULL-BLEED DOCUMENTARY CALLOUT --- */}
+      <div className="relative rounded-3xl overflow-hidden bg-slate-950 p-8 sm:p-14 text-white shadow-2xl border border-slate-800">
+        {/* Documentary Photo Background */}
+        <img
+          src="/images/hero/hero-2.jpg"
+          alt="The ShED Forum Initiatives in Action"
+          className="absolute inset-0 w-full h-full object-cover opacity-25 filter brightness-[0.7] contrast-[1.1]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-[#0052B4]/40" />
+
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="space-y-4 max-w-2xl">
+            <span className="inline-block bg-[#ffbe00] text-black text-xs font-black uppercase tracking-wider px-4 py-1.5 rounded-sm shadow-md">
+              Make a Meaningful Difference
+            </span>
+            <h3 className="text-2xl sm:text-4xl font-serif-heading font-semibold text-white leading-tight">
+              Want to Volunteer, Mentor, or Support One of These Initiatives?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              Whether you are an alumnus, a university scholar, or a community patron, every hand extended multiplies educational opportunities for our rural youth.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full lg:w-auto">
+            <button
+              onClick={onOpenHelpdesk}
+              className="bg-[#ffbe00] hover:bg-[#e6ab00] text-black font-extrabold px-8 py-4 rounded-xl shadow-xl transition-all text-center text-xs sm:text-sm uppercase tracking-wider active:scale-95 cursor-pointer"
+            >
+              Connect On Helpdesk
+            </button>
+          </div>
         </div>
       </div>
 
+      </div>
     </div>
   );
 };

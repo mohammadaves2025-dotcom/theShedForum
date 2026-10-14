@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   GraduationCap, BookOpen, Sparkles, Users, Calendar, 
   CheckCircle2, Clock, Video, FileText, Award, 
-  HelpCircle, ChevronDown 
+  HelpCircle, ChevronDown, Building2
 } from 'lucide-react';
+import { PageHeroBanner } from './PageHeroBanner';
 
 interface CentrePageProps {
   onOpenHelpdesk: () => void;
@@ -199,64 +201,76 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 lg:space-y-20">
+    <div className="bg-white min-h-screen">
       
-      {/* --- HERO BANNER --- */}
-      <div className="bg-gradient-to-r from-[#0F172A] via-[#0052B4] to-[#009A44] rounded-3xl p-8 sm:p-14 text-white shadow-2xl relative overflow-hidden border border-slate-700">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      {/* --- PRATHAM-STYLE TOP HERO BANNER --- */}
+      <PageHeroBanner
+        image="/gallery/jmi-unit/jmi-scg-session-indoor-01.jpg"
+        badgeText="SGC CENTRE"
+        alt="SGC Centre - Shershahbadi Guidance & Coaching"
+      />
 
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-cyan-300 bg-white/10 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>SCG Centre • Shershahbadi Guidance & Coaching</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14 lg:space-y-16">
+        
+        {/* Editorial Heading & Quick CTAs */}
+        <div className="space-y-4 max-w-4xl">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#0052B4] bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Flagship Academic Coaching Wing • Free CUET Preparation</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif-heading font-semibold text-white tracking-tight leading-[1.15]">
-            Free CUET & Central University Entrance Coaching
+          <h1 className="text-3xl sm:text-5xl font-serif-heading font-semibold text-slate-900 tracking-tight leading-[1.2]">
+            Comprehensive Coaching With Zero Tuition Fees
           </h1>
 
-          <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed font-normal">
-            The flagship educational engine of The ShED Forum. Providing 100% free comprehensive coaching, live mentor sessions, mock tests, and admission guidance to connect rural scholars to India’s premier central universities.
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+            Providing 100% free comprehensive entrance coaching, live Google Meet sessions, mock tests, and university admission guidance to connect rural scholars to India’s premier central universities.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
             <button
               onClick={onOpenHelpdesk}
-              className="bg-white hover:bg-slate-100 text-[#0052B4] font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all text-xs sm:text-sm flex items-center gap-2 active:scale-98"
+              className="bg-[#0052B4] hover:bg-[#003D87] text-white font-bold px-6 py-3.5 rounded-xl shadow-md transition-all text-xs sm:text-sm flex items-center gap-2 active:scale-98 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-amber-500" />
+              <Sparkles className="w-4 h-4 text-amber-300" />
               <span>Enroll for CUET Batch 2026 (Free)</span>
             </button>
             <a
               href="#curriculum"
-              className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3.5 rounded-xl border border-white/20 transition-all text-xs sm:text-sm flex items-center gap-2"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-5 py-3.5 rounded-xl border border-slate-300 transition-all text-xs sm:text-sm flex items-center gap-2"
             >
-              <BookOpen className="w-4 h-4 text-emerald-300" />
+              <BookOpen className="w-4 h-4 text-[#009A44]" />
               <span>View Syllabus & Schedule</span>
             </a>
+            <Link
+              to="/centre"
+              className="bg-blue-50 hover:bg-blue-100 text-[#0052B4] font-bold px-5 py-3.5 rounded-xl border border-blue-200 transition-all text-xs sm:text-sm flex items-center gap-2"
+            >
+              <Building2 className="w-4 h-4 text-[#0052B4]" />
+              <span>Go to ShED Central Hub →</span>
+            </Link>
           </div>
-        </div>
 
-        {/* Quick Stat Highlights Bar */}
-        <div className="relative z-10 pt-8 mt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center sm:text-left">
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-white">450+</div>
-            <div className="text-xs text-slate-300 font-medium">Students Coached Annually</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-emerald-300">100% Free</div>
-            <div className="text-xs text-slate-300 font-medium">Zero Admission or Material Fees</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-amber-300">7 Campuses</div>
-            <div className="text-xs text-slate-300 font-medium">Active University Guidance Hubs</div>
-          </div>
-          <div>
-            <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-cyan-300">38% Women</div>
-            <div className="text-xs text-slate-300 font-medium">Female Higher Education Enrollment</div>
+          {/* Quick Stat Highlights */}
+          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-slate-200 mt-6">
+            <div>
+              <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-[#0052B4]">450+</div>
+              <div className="text-xs text-slate-500 font-medium">Students Coached Annually</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-[#009A44]">100% Free</div>
+              <div className="text-xs text-slate-500 font-medium">Zero Admission or Material Fees</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-amber-600">7 Campuses</div>
+              <div className="text-xs text-slate-500 font-medium">Active University Guidance Hubs</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-bold font-serif-heading text-indigo-600">38% Women</div>
+              <div className="text-xs text-slate-500 font-medium">Female Higher Ed Enrollment</div>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* --- REAL SESSION PHOTO GALLERY STRIP --- */}
       <div className="space-y-4">
@@ -339,13 +353,13 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
         
         {/* Tab Switcher Pills */}
         <div className="flex items-center justify-center">
-          <div className="bg-slate-100 p-1.5 rounded-2xl flex items-center gap-1 overflow-x-auto max-w-full">
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar max-w-full py-1">
             <button
               onClick={() => setActiveTab('curriculum')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer min-h-[42px] select-none ${
                 activeTab === 'curriculum'
-                  ? 'bg-white text-[#0052B4] shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#ffbe00] text-black font-extrabold shadow-md scale-[1.02] border border-amber-400/80 ring-2 ring-black/5'
+                  : 'bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold border border-slate-200/90 shadow-2xs'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -354,10 +368,10 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
 
             <button
               onClick={() => setActiveTab('schedule')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer min-h-[42px] select-none ${
                 activeTab === 'schedule'
-                  ? 'bg-white text-[#0052B4] shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#ffbe00] text-black font-extrabold shadow-md scale-[1.02] border border-amber-400/80 ring-2 ring-black/5'
+                  : 'bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold border border-slate-200/90 shadow-2xs'
               }`}
             >
               <Calendar className="w-4 h-4" />
@@ -366,10 +380,10 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
 
             <button
               onClick={() => setActiveTab('universities')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer min-h-[42px] select-none ${
                 activeTab === 'universities'
-                  ? 'bg-white text-[#0052B4] shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#ffbe00] text-black font-extrabold shadow-md scale-[1.02] border border-amber-400/80 ring-2 ring-black/5'
+                  : 'bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold border border-slate-200/90 shadow-2xs'
               }`}
             >
               <GraduationCap className="w-4 h-4" />
@@ -378,10 +392,10 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
 
             <button
               onClick={() => setActiveTab('faq')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer min-h-[42px] select-none ${
                 activeTab === 'faq'
-                  ? 'bg-white text-[#0052B4] shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-[#ffbe00] text-black font-extrabold shadow-md scale-[1.02] border border-amber-400/80 ring-2 ring-black/5'
+                  : 'bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold border border-slate-200/90 shadow-2xs'
               }`}
             >
               <HelpCircle className="w-4 h-4" />
@@ -570,15 +584,10 @@ export const CentrePage: React.FC<CentrePageProps> = ({ onOpenHelpdesk }) => {
           >
             Connect With SCG Helpdesk
           </button>
-          <a
-            href="tel:+917737280758"
-            className="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3.5 rounded-xl border border-white/20 text-xs transition-all text-center"
-          >
-            Call: +91 77372-80758
-          </a>
         </div>
       </div>
 
+      </div>
     </div>
   );
 };

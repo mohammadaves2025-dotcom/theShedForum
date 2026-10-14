@@ -33,6 +33,12 @@ yarn-error.log*
 .vscode
 .idea
 
-# Root source documents & extracts
-/*.pdf
-/*.pdf.txt
+# PDFs, Booklets & source documents
+*.pdf
+*.PDF
+*.pdf.txt
+booklets/
+**/booklets/**
+client/public/booklets/
+client/public/pdf/
+client/public/pdfs/

@@ -58,19 +58,19 @@ export const ReachImpactSection: React.FC<{ title?: string; subtitle?: string }>
         </div>
 
         {/* 4-Column Reach Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 items-start">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-8 items-start">
           {metrics.map((metric, idx) => (
             <div 
               key={idx} 
-              className="flex flex-col items-center justify-between text-center space-y-3 group px-4 py-2"
+              className="flex flex-col items-center justify-between text-center space-y-2 sm:space-y-3 group px-2 sm:px-4 py-2"
             >
               {/* Top Label */}
-              <div className="text-xs sm:text-sm font-medium text-slate-600 min-h-[24px] flex items-end">
+              <div className="text-[11px] sm:text-sm font-medium text-slate-600 min-h-[20px] sm:min-h-[24px] flex items-end">
                 {metric.labelTop}
               </div>
 
               {/* Huge Highlight Number */}
-              <div className={`text-5xl sm:text-6xl lg:text-7xl font-serif-heading font-bold tracking-tight leading-none ${metric.colorClass || 'text-slate-900'} group-hover:scale-105 transition-transform duration-300`}>
+              <div className={`text-4xl sm:text-6xl lg:text-7xl font-serif-heading font-bold tracking-tight leading-none ${metric.colorClass || 'text-slate-900'} group-hover:scale-105 transition-transform duration-300`}>
                 {metric.number}
               </div>
 

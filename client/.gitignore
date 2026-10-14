@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# PDFs and Booklets
+*.pdf
+*.PDF
+booklets/
+public/booklets/
+public/*.pdf

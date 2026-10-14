@@ -569,12 +569,14 @@ app.use('/api', router);
 app.use('/', router);
 
 // --- Universal Execution Controller (Local Machine, Vercel Services, and Serverless) ---
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`[${NODE_ENV.toUpperCase()}] ShED Forum Backend Server running on port ${PORT}`);
-  console.log(`Database:  ${isConnected() ? 'MongoDB Atlas' : 'In-Memory (Awaiting MONGODB_URI)'}`);
-  console.log(`=======================================================`);
-});
+if (!isVercel) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`[${NODE_ENV.toUpperCase()}] ShED Forum Backend Server running on port ${PORT}`);
+    console.log(`Database:  ${isConnected() ? 'MongoDB Atlas' : 'In-Memory (Awaiting MONGODB_URI)'}`);
+    console.log(`=======================================================`);
+  });
+}
 
 // Export app for Vercel functions/services runtime
 export default app;

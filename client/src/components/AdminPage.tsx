@@ -1049,17 +1049,17 @@ export const AdminPage: React.FC = () => {
                       </td>
                     </tr>
                   ) : (
-                    filteredSubmissions.map((sub) => {
+                    filteredSubmissions.map((sub, idx) => {
                       const statusColor = 
                         sub.status === 'Admitted' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                         sub.status === 'Mentor Assigned' ? 'bg-blue-50 text-blue-700 border-blue-200' :
                         sub.status === 'Contacted' ? 'bg-purple-50 text-purple-700 border-purple-200' :
                         'bg-amber-50 text-amber-700 border-amber-200';
 
-                      const isLiveSubmission = sub.id && !sub.id.startsWith('sub_');
+                      const isLiveSubmission = (sub.id || sub._id) && !(sub.id || sub._id).toString().startsWith('sub_');
 
                       return (
-                        <tr key={sub.id} className="hover:bg-slate-50/70 transition-colors">
+                        <tr key={sub.id || sub._id || `sub_${idx}`} className="hover:bg-slate-50/70 transition-colors">
                           
                           {/* Name & District */}
                           <td className="py-3.5 px-4">

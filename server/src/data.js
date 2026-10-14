@@ -17,6 +17,7 @@ export const initialData = {
       studentsCount: 200,
       isFirstUnit: true,
       incharge: "Central Working Committee Representative",
+      logo: "/logos/universities/manuu.png",
       description: "Established in 2018, MANUU Unit was the founding university unit of ShED Forum. It has grown into a vibrant academic hub with around 200 active Shershahbadi students pursuing undergraduate, postgraduate, and doctoral studies.",
       highlights: [
         "First foundational university unit of ShED Forum",
@@ -47,6 +48,7 @@ export const initialData = {
       studentsCount: 170,
       isFirstUnit: false,
       incharge: "Jamia Unit Executive Committee",
+      logo: "/logos/universities/jmi.png",
       description: "Established in 2021, the Jamia Unit in New Delhi serves approximately 170 students. It provides critical mentorship for central university entrance exams, civil services guidance, and academic networking in the national capital region.",
       highlights: [
         "Strategic capital presence connecting students with premier faculties",
@@ -80,6 +82,7 @@ export const initialData = {
       studentsCount: 220,
       isFirstUnit: false,
       incharge: "AMU Unit Secretariat",
+      logo: "/logos/universities/amu.png",
       description: "Established in 2022, the AMU Unit is currently one of the largest units with over 220 active students across diverse faculties including Engineering, Medicine, Humanities, and Law.",
       highlights: [
         "Largest single unit representation with 220+ students",
@@ -107,6 +110,7 @@ export const initialData = {
       studentsCount: 15,
       isFirstUnit: false,
       incharge: "JNU Student Convener",
+      logo: "/logos/universities/jnu.png",
       description: "Established in 2022, the JNU Unit focuses on higher research, M.Phil/Ph.D. guidance, social science research methodology, and international fellowship applications.",
       highlights: [
         "Research & doctoral student mentorship forum",
@@ -125,6 +129,7 @@ export const initialData = {
       studentsCount: 15,
       isFirstUnit: false,
       incharge: "DU Unit Coordinator",
+      logo: "/logos/universities/du.png",
       description: "Established in 2023, DU Unit supports undergraduate and postgraduate scholars across Delhi University North and South campuses.",
       highlights: [
         "CUET UG/PG support for premier DU colleges",
@@ -143,6 +148,7 @@ export const initialData = {
       studentsCount: 7,
       isFirstUnit: false,
       incharge: "HCU Student Representative",
+      logo: "/logos/universities/hcu.png",
       description: "Established in 2021, HCU Unit provides dedicated academic support and research fellowship assistance in South India's premier central university.",
       highlights: [
         "Science & Humanities research guidance",
@@ -161,6 +167,7 @@ export const initialData = {
       studentsCount: 12,
       isFirstUnit: false,
       incharge: "Patna Unit Executive",
+      logo: "/logos/universities/patna.png",
       description: "Established in 2026, the Patna University Unit acts as the regional state university hub in Bihar, facilitating admission support closer to the Seemanchal region.",
       highlights: [
         "State level central guidance hub in Bihar capital",
